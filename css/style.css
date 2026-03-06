@@ -128,7 +128,7 @@ body {
 .welcome-section {
   text-align: center;
   padding: 32px 20px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
 .welcome-icon {
@@ -162,22 +162,53 @@ body {
   margin-top: 4px;
 }
 
+/* --- Category Group (科目グループ) --- */
+.category-group {
+  margin-bottom: 28px;
+}
+
+.group-header {
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: white;
+}
+
+.group-title-jp {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.group-title-id {
+  font-size: 0.78rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.category-group .category-grid {
+  border: 2px solid #16213e;
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 14px;
+  background: var(--bg-primary);
+}
+
 /* --- Category Cards --- */
 .category-grid {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-bottom: 24px;
+  gap: 10px;
 }
 
 .category-card {
   background: var(--bg-white);
   border: 2px solid transparent;
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 18px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   cursor: pointer;
   transition: var(--transition);
   text-align: left;
@@ -208,14 +239,14 @@ body {
 }
 
 .card-icon {
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   flex-shrink: 0;
 }
 
@@ -225,35 +256,24 @@ body {
 }
 
 .card-content h3 {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
   margin-bottom: 2px;
   color: var(--text-primary);
 }
 
 .card-title-id {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .card-desc {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   line-height: 1.4;
-  margin-bottom: 8px;
-}
-
-.card-meta {
-  display: flex;
-  gap: 14px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.card-meta i {
-  margin-right: 4px;
+  margin-bottom: 0;
 }
 
 .card-arrow {
@@ -379,6 +399,7 @@ body {
   text-decoration-thickness: 2px;
 }
 
+/* --- Translation (回答後のみ表示) --- */
 .question-translation {
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -390,6 +411,24 @@ body {
 .question-translation i {
   margin-right: 6px;
   color: #3498db;
+}
+
+.translation-reveal {
+  animation: revealTranslation 0.4s ease;
+}
+
+@keyframes revealTranslation {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+    padding-top: 10px;
+  }
 }
 
 /* --- Options --- */
@@ -557,6 +596,130 @@ body {
   transform: translateY(-1px);
 }
 
+/* --- Correct Effect Overlay --- */
+.effect-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+/* Effect 1: Sparkle Stars */
+.effect-sparkle-star {
+  position: absolute;
+  top: -10px;
+  color: #f1c40f;
+  animation: sparkle-fall 1.2s ease-out forwards;
+  text-shadow: 0 0 6px rgba(241, 196, 15, 0.5);
+}
+
+@keyframes sparkle-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(80px) rotate(180deg) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(180px) rotate(360deg) scale(0.3);
+  }
+}
+
+/* Effect 2: Confetti */
+.effect-confetti-piece {
+  position: absolute;
+  top: -8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-drop 1.3s ease-out forwards;
+}
+
+@keyframes confetti-drop {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(200px) rotate(720deg) scale(0.4);
+  }
+}
+
+/* Effect 3: Ripple */
+.effect-ripple {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.effect-ripple-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(46, 204, 113, 0.6);
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple-expand 1s ease-out forwards;
+}
+
+@keyframes ripple-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(18);
+    opacity: 0;
+  }
+}
+
+/* --- Speak Button --- */
+.speak-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #3498db;
+  background: #eaf4fc;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.speak-btn:hover {
+  background: #3498db;
+  color: white;
+  transform: scale(1.1);
+}
+
+.speak-btn-sm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+.speak-animate {
+  animation: pulse-speak 0.6s ease infinite alternate;
+}
+
+@keyframes pulse-speak {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
 /* --- Result Screen --- */
 .result-screen {
   animation: fadeIn 0.5s ease;
@@ -671,6 +834,12 @@ body {
   margin-bottom: 8px;
 }
 
+.result-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .result-q-num {
   font-weight: 700;
   font-size: 0.85rem;
@@ -701,7 +870,23 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 1rem;
   line-height: 1.7;
+  margin-bottom: 6px;
+}
+
+.result-translation {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
   margin-bottom: 8px;
+  padding: 6px 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #3498db;
+}
+
+.result-translation i {
+  margin-right: 6px;
+  color: #3498db;
 }
 
 .result-answers {
@@ -818,23 +1003,35 @@ body {
     font-size: 26px;
   }
 
+  .group-header {
+    padding: 10px 14px;
+  }
+
+  .group-title-jp {
+    font-size: 0.9rem;
+  }
+
+  .category-group .category-grid {
+    padding: 10px;
+  }
+
   .category-card {
-    padding: 16px;
-    gap: 12px;
+    padding: 14px;
+    gap: 10px;
   }
 
   .card-icon {
-    width: 46px;
-    height: 46px;
-    font-size: 18px;
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
   }
 
   .card-content h3 {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
   }
 
   .card-desc {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
   }
 
   .question-card {
@@ -868,6 +1065,10 @@ body {
 
   .result-item {
     padding: 12px;
+  }
+
+  .quiz-category-badge span {
+    font-size: 0.72rem;
   }
 }
 
