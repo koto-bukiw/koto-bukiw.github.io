@@ -14,7 +14,7 @@ const bunpou2Data = [
     question: "きのう (＿＿) (＿＿) (★) (＿＿)。",
     highlight: "★",
     options: ["かいに", "デパートへ", "いきました", "かばんを"],
-    answer: 1,
+    answer: 0,
     translation: "きのう（デパートへ）（かばんを）（かいに）（いきました）。Kemarin saya pergi ke toserba untuk membeli tas."
   },
   {
@@ -22,7 +22,7 @@ const bunpou2Data = [
     question: "つくえの (＿＿) (＿＿) (★) (＿＿) あります。",
     highlight: "★",
     options: ["かばん", "うえに", "が", "ノートと"],
-    answer: 1,
+    answer: 0,
     translation: "つくえの（うえに）（ノートと）（かばん）（が）あります。Di atas meja ada buku catatan dan tas."
   },
   {
@@ -30,7 +30,7 @@ const bunpou2Data = [
     question: "きのうは (＿＿) (＿＿) (★) (＿＿) ほんを よみました。",
     highlight: "★",
     options: ["あめが", "から", "ふっていた", "うちで"],
-    answer: 2,
+    answer: 1,
     translation: "きのうは（あめが）（ふっていた）（から）（うちで）ほんをよみました。Karena kemarin turun hujan, saya membaca buku di rumah."
   },
   {
@@ -38,7 +38,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) すきです。",
     highlight: "★",
     options: ["の", "うた", "にほん", "が"],
-    answer: 2,
+    answer: 1,
     translation: "わたしは（にほん）（の）（うた）（が）すきです。Saya suka lagu Jepang."
   },
   {
@@ -46,7 +46,7 @@ const bunpou2Data = [
     question: "あの (＿＿) (＿＿) (★) (＿＿) は だれですか。",
     highlight: "★",
     options: ["を", "ひと", "めがね", "かけている"],
-    answer: 4,
+    answer: 3,
     translation: "あの（めがね）（を）（かけている）（ひと）はだれですか。Orang yang memakai kacamata itu siapa?"
   },
   {
@@ -54,7 +54,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) が すきです。",
     highlight: "★",
     options: ["のむ", "コーヒー", "を", "の"],
-    answer: 1,
+    answer: 0,
     translation: "わたしは（コーヒー）（を）（のむ）（の）がすきです。Saya suka minum kopi."
   },
   {
@@ -62,7 +62,7 @@ const bunpou2Data = [
     question: "まいあさ (＿＿) (＿＿) (★) (＿＿) かおを あらいます。",
     highlight: "★",
     options: ["シャワーを", "すぐ", "あびてから", "おきて"],
-    answer: 1,
+    answer: 0,
     translation: "まいあさ（おきて）（すぐ）（シャワーを）（あびてから）かおをあらいます。Setiap pagi setelah bangun dan langsung mandi (shower), saya mencuci muka."
   },
   {
@@ -70,7 +70,7 @@ const bunpou2Data = [
     question: "まいあさ ６じに (＿＿) (＿＿) (★) (＿＿) ごはんを たべます。",
     highlight: "★",
     options: ["シャワー", "から", "あびて", "を"],
-    answer: 3,
+    answer: 2,
     translation: "まいあさ６じに（シャワー）（を）（あびて）（から）ごはんをたべます。Setiap pagi jam 6 saya makan setelah mandi (shower)."
   },
   {
@@ -78,7 +78,7 @@ const bunpou2Data = [
     question: "(＿＿) (＿＿) (★) (＿＿) しゃしんを とりましたか。",
     highlight: "★",
     options: ["の", "だれ", "カメラ", "で"],
-    answer: 3,
+    answer: 2,
     translation: "（だれ）（の）（カメラ）（で）しゃしんをとりましたか。Anda mengambil foto menggunakan kamera milik siapa?"
   },
   {
@@ -86,7 +86,7 @@ const bunpou2Data = [
     question: "かばんに (＿＿) (＿＿) (★) (＿＿) が はいっていますか。",
     highlight: "★",
     options: ["なに", "の", "なか", "に"],
-    answer: 1,
+    answer: 0,
     translation: "かばん（の）（なか）（に）（なに）がはいっていますか。Di dalam tas ada apa?"
   },
   {
@@ -94,7 +94,7 @@ const bunpou2Data = [
     question: "きのうは (＿＿) (＿＿) (★) (＿＿) ねました。",
     highlight: "★",
     options: ["おそく", "いそがしかった", "とても", "から"],
-    answer: 4,
+    answer: 3,
     translation: "きのうは（とても）（いそがしかった）（から）（おそく）ねました。Karena kemarin sangat sibuk, saya tidur larut."
   },
   {
@@ -102,7 +102,7 @@ const bunpou2Data = [
     question: "りょうりに (＿＿) (＿＿) (★) (＿＿) ください。",
     highlight: "★",
     options: ["いれない", "さとう", "を", "で"],
-    answer: 4,
+    answer: 3,
     translation: "りょうりに（さとう）（を）（いれない）（で）ください。Tolong jangan masukkan gula ke masakan."
   },
   {
@@ -110,7 +110,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) です。",
     highlight: "★",
     options: ["をつくるの", "が", "りょうり", "すき"],
-    answer: 2,
+    answer: 1,
     translation: "わたしは（りょうり）（をつくるの）（が）（すき）です。Saya suka memasak makanan."
   },
   {
@@ -118,7 +118,7 @@ const bunpou2Data = [
     question: "この クッキーは (＿＿) (＿＿) (★) (＿＿) おいしいですよ。",
     highlight: "★",
     options: ["あまくて", "と", "コーヒー", "いっしょにたべると"],
-    answer: 4,
+    answer: 3,
     translation: "このクッキーは（あまくて）（コーヒー）（と）（いっしょにたべると）おいしいですよ。Kue kering ini manis dan enak jika dimakan bersama kopi."
   },
   {
@@ -126,7 +126,7 @@ const bunpou2Data = [
     question: "あの (＿＿) (＿＿) (★) (＿＿) に あります。",
     highlight: "★",
     options: ["の", "しろい", "ビル", "となり"],
-    answer: 1,
+    answer: 0,
     translation: "あの（しろい）（ビル）（の）（となり）にあります。Ada di sebelah gedung putih itu."
   },
   {
@@ -134,7 +134,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) きました。",
     highlight: "★",
     options: ["ちゅうごく", "ペキン", "から", "の"],
-    answer: 2,
+    answer: 1,
     translation: "わたしは（ちゅうごく）（の）（ペキン）（から）きました。Saya datang dari Beijing, Cina."
   },
   {
@@ -142,7 +142,7 @@ const bunpou2Data = [
     question: "わたしの へやには (＿＿) (＿＿) (★) (＿＿) ありません。",
     highlight: "★",
     options: ["しか", "テレビ", "ひとつ", "が"],
-    answer: 1,
+    answer: 0,
     translation: "わたしのへやには（テレビ）（が）（ひとつ）（しか）ありません。Di kamar saya hanya ada satu televisi."
   },
   {
@@ -150,7 +150,7 @@ const bunpou2Data = [
     question: "きょうは (＿＿) (＿＿) (★) (＿＿) かえりましょう。",
     highlight: "★",
     options: ["はやく", "から", "うちへ", "さむい"],
-    answer: 3,
+    answer: 2,
     translation: "きょうは（さむい）（から）（はやく）（うちへ）かえりましょう。Karena hari ini dingin, mari kita pulang ke rumah lebih awal."
   },
   {
@@ -158,7 +158,7 @@ const bunpou2Data = [
     question: "あしたは (＿＿) (＿＿) (★) (＿＿) いいですね。",
     highlight: "★",
     options: ["に なる", "いい", "てんき", "と"],
-    answer: 4,
+    answer: 3,
     translation: "あしたは（いい）（てんき）（に なる）（と）いいですね。Semoga besok cuacanya menjadi bagus ya."
   },
   {
@@ -166,7 +166,7 @@ const bunpou2Data = [
     question: "この ほんは (＿＿) (＿＿) (★) (＿＿) おもしろくないです。",
     highlight: "★",
     options: ["だから", "むずかしい", "です", "ぜんぜん"],
-    answer: 4,
+    answer: 3,
     translation: "このほんは（むずかしい）（です）（だから）（ぜんぜん）おもしろくないです。Buku ini sulit, karena itu sama sekali tidak menarik."
   },
   {
@@ -174,7 +174,7 @@ const bunpou2Data = [
     question: "きのう (＿＿) (＿＿) (★) (＿＿) とても つかれました。",
     highlight: "★",
     options: ["で", "あるいた", "やま", "ので"],
-    answer: 2,
+    answer: 1,
     translation: "きのう（やま）（で）（あるいた）（ので）とてもつかれました。Karena kemarin berjalan di gunung, saya sangat lelah."
   },
   {
@@ -182,7 +182,7 @@ const bunpou2Data = [
     question: "あの (＿＿) (＿＿) (★) (＿＿) カメラです。",
     highlight: "★",
     options: ["くろい", "は", "カメラ", "わたしの"],
-    answer: 2,
+    answer: 1,
     translation: "あの（くろい）（カメラ）（は）（わたしの）カメラです。Kamera hitam itu adalah kamera saya."
   },
   {
@@ -190,7 +190,7 @@ const bunpou2Data = [
     question: "(＿＿) (＿＿) (★) (＿＿) しまりました。",
     highlight: "★",
     options: ["が", "ドア", "かぜ", "で"],
-    answer: 2,
+    answer: 1,
     translation: "（かぜ）（で）（ドア）（が）しまりました。Pintunya tertutup oleh angin."
   },
   {
@@ -198,7 +198,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) できません。",
     highlight: "★",
     options: ["ギターを", "が", "ひく", "こと"],
-    answer: 4,
+    answer: 3,
     translation: "わたしは（ギターを）（ひく）（こと）（が）できません。Saya tidak bisa bermain gitar."
   },
   {
@@ -206,7 +206,7 @@ const bunpou2Data = [
     question: "みちが (＿＿) (＿＿) (★) (＿＿) わかりません。",
     highlight: "★",
     options: ["から", "くらい", "よく", "です"],
-    answer: 1,
+    answer: 0,
     translation: "みちが（くらい）（です）（から）（よく）わかりません。Karena jalannya gelap, saya tidak tahu dengan jelas."
   },
   {
@@ -214,7 +214,7 @@ const bunpou2Data = [
     question: "ここに (＿＿) (＿＿) (★) (＿＿) はいけません。",
     highlight: "★",
     options: ["を", "は", "とめて", "くるま"],
-    answer: 3,
+    answer: 2,
     translation: "ここに（くるま）（を）（とめて）（は）いけません。Tidak boleh memarkir mobil di sini."
   },
   {
@@ -222,7 +222,7 @@ const bunpou2Data = [
     question: "あそこに (＿＿) (＿＿) (★) (＿＿) います。",
     highlight: "★",
     options: ["が", "ねこ", "ちいさい", "３びき"],
-    answer: 1,
+    answer: 0,
     translation: "あそこに（ちいさい）（ねこ）（が）（３びき）います。Di sana ada tiga ekor kucing kecil."
   },
   {
@@ -230,7 +230,7 @@ const bunpou2Data = [
     question: "もっと (＿＿) (＿＿) (★) (＿＿) はなしてください。",
     highlight: "★",
     options: ["おおきい", "で", "こえ", "ゆっくり"],
-    answer: 3,
+    answer: 2,
     translation: "もっと（おおきい）（こえ）（で）（ゆっくり）はなしてください。Tolong bicara lebih pelan dengan suara yang lebih besar."
   },
   {
@@ -238,7 +238,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) います。",
     highlight: "★",
     options: ["が", "きょうだい", "にん", "３"],
-    answer: 4,
+    answer: 3,
     translation: "わたしは（きょうだい）（が）（３）（にん）います。Saya memiliki tiga saudara."
   },
   {
@@ -246,7 +246,7 @@ const bunpou2Data = [
     question: "きょうは おなかが (＿＿) (＿＿) (★) (＿＿) たべたくないです。",
     highlight: "★",
     options: ["から", "いたい", "なにも", "です"],
-    answer: 1,
+    answer: 0,
     translation: "きょうは おなかが（いたい）（です）（から）（なにも）たべたくないです。Hari ini saya tidak ingin makan apa pun karena perut saya sakit."
   },
   {
@@ -254,7 +254,7 @@ const bunpou2Data = [
     question: "テーブルの (＿＿) (＿＿) (★) (＿＿) あります。",
     highlight: "★",
     options: ["が", "した", "に", "ほん"],
-    answer: 4,
+    answer: 3,
     translation: "テーブルの（した）（に）（ほん）（が）あります。Di bawah meja ada buku."
   },
   {
@@ -262,7 +262,7 @@ const bunpou2Data = [
     question: "(＿＿) (＿＿) (★) (＿＿) は だれですか。",
     highlight: "★",
     options: ["あの", "おんな", "ひと", "の"],
-    answer: 4,
+    answer: 3,
     translation: "（あの）（おんな）（の）（ひと）はだれですか。Orang perempuan itu siapa?"
   },
   {
@@ -270,7 +270,7 @@ const bunpou2Data = [
     question: "まどを (＿＿) (＿＿) (★) (＿＿) いいですか。",
     highlight: "★",
     options: ["も", "あけ", "て", "すこし"],
-    answer: 3,
+    answer: 2,
     translation: "まどを（すこし）（あけ）（て）（も）いいですか。Bolehkah saya membuka jendela sedikit?"
   },
   {
@@ -278,7 +278,7 @@ const bunpou2Data = [
     question: "この りんごは (＿＿) (＿＿) (★) (＿＿) です。",
     highlight: "★",
     options: ["３つ", "５００えん", "で", "あわせて"],
-    answer: 2,
+    answer: 1,
     translation: "このりんごは（３つ）（で）（あわせて）（５００えん）です。Apel ini 3 buah totalnya 500 yen."
   },
   {
@@ -286,7 +286,7 @@ const bunpou2Data = [
     question: "まいしゅう (＿＿) (＿＿) (★) (＿＿) テニスを します。",
     highlight: "★",
     options: ["の", "にちようび", "あさ", "に"],
-    answer: 3,
+    answer: 2,
     translation: "まいしゅう（にちようび）（の）（あさ）（に）テニスをします。Setiap hari Minggu pagi saya bermain tenis."
   },
   {
@@ -294,7 +294,7 @@ const bunpou2Data = [
     question: "きのう (＿＿) (＿＿) (★) (＿＿) おもしろかったです。",
     highlight: "★",
     options: ["えいが", "は", "みた", "とても"],
-    answer: 2,
+    answer: 1,
     translation: "きのう（みた）（えいが）（は）（とても）おもしろかったです。Film yang saya tonton kemarin sangat menarik."
   },
   {
@@ -302,7 +302,7 @@ const bunpou2Data = [
     question: "しゅくだいが (＿＿) (＿＿) (★) (＿＿) ねます。",
     highlight: "★",
     options: ["おわって", "すぐ", "から", "ぜんぶ"],
-    answer: 3,
+    answer: 2,
     translation: "しゅくだいが（ぜんぶ）（おわって）（から）（すぐ）ねます。Setelah PR semuanya selesai, saya segera tidur."
   },
   {
@@ -310,7 +310,7 @@ const bunpou2Data = [
     question: "(＿＿) (＿＿) (★) (＿＿) きますか。",
     highlight: "★",
     options: ["がっこう", "へ", "どうやって", "いつも"],
-    answer: 1,
+    answer: 0,
     translation: "（いつも）（どうやって）（がっこう）（へ）きますか。Selalu datang ke sekolah dengan cara apa (naik apa)?"
   },
   {
@@ -318,7 +318,7 @@ const bunpou2Data = [
     question: "あした (＿＿) (＿＿) (★) (＿＿) ください。",
     highlight: "★",
     options: ["わすれない", "もってくる", "のを", "で"],
-    answer: 1,
+    answer: 0,
     translation: "あした（もってくる）（のを）（わすれない）（で）ください。Tolong jangan lupa membawanya besok."
   },
   {
@@ -326,7 +326,7 @@ const bunpou2Data = [
     question: "コーヒーと こうちゃと (＿＿) (＿＿) (★) (＿＿) すきですか。",
     highlight: "★",
     options: ["が", "どちら", "の", "ほう"],
-    answer: 4,
+    answer: 3,
     translation: "コーヒーとこうちゃと（どちら）（の）（ほう）（が）すきですか。Antara kopi dan teh hitam, mana yang lebih kamu suka?"
   },
   {
@@ -334,7 +334,7 @@ const bunpou2Data = [
     question: "としょかんで (＿＿) (＿＿) (★) (＿＿) はいけません。",
     highlight: "★",
     options: ["はなして", "おおきい", "は", "こえで"],
-    answer: 1,
+    answer: 0,
     translation: "としょかんで（おおきい）（こえで）（はなして）（は）いけません。Tidak boleh berbicara dengan suara keras di perpustakaan."
   },
   {
@@ -342,7 +342,7 @@ const bunpou2Data = [
     question: "おとうとは いま (＿＿) (＿＿) (★) (＿＿) います。",
     highlight: "★",
     options: ["を", "たべて", "ケーキ", "おいしい"],
-    answer: 1,
+    answer: 0,
     translation: "おとうとはいま（おいしい）（ケーキ）（を）（たべて）います。Adik laki-laki saya sekarang sedang makan kue yang enak."
   },
   {
@@ -350,7 +350,7 @@ const bunpou2Data = [
     question: "(＿＿) (＿＿) (★) (＿＿) のみましょうか。",
     highlight: "★",
     options: ["つめたい", "を", "ジュース", "なにか"],
-    answer: 3,
+    answer: 2,
     translation: "（なにか）（つめたい）（ジュース）（を）のみましょうか。Mari kita minum sesuatu yang dingin seperti jus?"
   },
   {
@@ -358,7 +358,7 @@ const bunpou2Data = [
     question: "わたしは (＿＿) (＿＿) (★) (＿＿) かきたいです。",
     highlight: "★",
     options: ["てがみ", "に", "を", "ともだち"],
-    answer: 1,
+    answer: 0,
     translation: "わたしは（ともだち）（に）（てがみ）（を）かきたいです。Saya ingin menulis surat kepada teman."
   },
   {
@@ -366,7 +366,7 @@ const bunpou2Data = [
     question: "あの カメラが ほしいですが、(＿＿) (＿＿) (★) (＿＿) かえません。",
     highlight: "★",
     options: ["ない", "から", "おかね", "が"],
-    answer: 1,
+    answer: 0,
     translation: "あのカメラがほしいですが、（おかね）（が）（ない）（から）かえません。Saya ingin kamera itu, tapi saya tidak bisa membelinya karena tidak punya uang."
   },
   {
@@ -374,7 +374,7 @@ const bunpou2Data = [
     question: "きのうの (＿＿) (＿＿) (★) (＿＿) でした。",
     highlight: "★",
     options: ["は", "ばんごはん", "おいしい", "カレー"],
-    answer: 3,
+    answer: 2,
     translation: "きのうの（ばんごはん）（は）（おいしい）（カレー）でした。Makan malam kemarin adalah kari yang enak."
   },
   {
@@ -382,7 +382,7 @@ const bunpou2Data = [
     question: "(＿＿) (＿＿) (★) (＿＿) ありません。",
     highlight: "★",
     options: ["に", "なにも", "れいぞうこの", "なか"],
-    answer: 2,
+    answer: 1,
     translation: "（れいぞうこの）（なか）（に）（なにも）ありません。Tidak ada apa-apa di dalam kulkas."
   },
   {
@@ -390,7 +390,7 @@ const bunpou2Data = [
     question: "あの (＿＿) (＿＿) (★) (＿＿) です。",
     highlight: "★",
     options: ["は", "せんせい", "ひと", "わたしの"],
-    answer: 4,
+    answer: 3,
     translation: "あの（ひと）（は）（わたしの）（せんせい）です。Orang itu adalah guru saya."
   },
   {
@@ -398,7 +398,7 @@ const bunpou2Data = [
     question: "えきで (＿＿) (＿＿) (★) (＿＿) のりました。",
     highlight: "★",
     options: ["でんしゃ", "にあって", "ともだち", "に"],
-    answer: 1,
+    answer: 0,
     translation: "えきで（ともだち）（にあって）（でんしゃ）（に）のりました。Di stasiun saya bertemu teman dan naik kereta."
   },
   {
@@ -406,7 +406,7 @@ const bunpou2Data = [
     question: "あしたは (＿＿) (＿＿) (★) (＿＿) いけません。",
     highlight: "★",
     options: ["に", "がっこう", "はやく", "いかなくては"],
-    answer: 3,
+    answer: 0,
     translation: "あしたは（はやく）（がっこう）（に）（いかなくては）いけません。Besok harus pergi ke sekolah lebih awal."
   }
 ];
