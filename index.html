@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLPT N5 Latihan - Belajar Bahasa Jepang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+  <!-- 第1科目：言語知識（文字・語彙）-->
+  <script src="data/kanji-yomi.js"></script>
+  <script src="data/hyouki.js"></script>
+  <script src="data/bunmyaku-kitei.js"></script>
+  <script src="data/iikae.js"></script>
+  <!-- 第2科目：言語知識（文法）・読解 -->
+  <script src="data/bunpou1.js"></script>
+  <script src="data/bunpou2.js"></script>
+  <script src="data/bunshou-bunpou.js"></script>
+  <script src="data/naiyou-tanbun.js"></script>
+  <script src="data/naiyou-chuubun.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-type="module">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    // ============================================
+    // 定数
+    // ============================================
+    const QUESTIONS_PER_QUIZ = 10;
+
+    // カテゴリ別の出題数上書き
+    const QUIZ_COUNT_OVERRIDE = {
+      'naiyou-chuubun': 2,
+      'naiyou-tanbun': 5
+    };
+
+    function getQuizCount(categoryId) {
+      return QUIZ_COUNT_OVERRIDE[categoryId] || QUESTIONS_PER_QUIZ;
+    }
+
+    // ============================================
+    // カテゴリ定義（科目グループ付き）
+    // ============================================
+    const CATEGORY_GROUPS = [
+      {
+        groupId: 'moji-goi',
+        groupTitle: '第1科目：言語知識（文字・語彙）',
+        groupTitleId: 'Bagian 1: Pengetahuan Bahasa (Huruf & Kosakata)',
+        categories: [
+          {
+            id: 'kanji-yomi',
+            title: 'Membaca Kanji',
+            titleJp: '問題1：漢字読み',
+            icon: 'fa-book-open',
+            description: 'Pilih cara baca (hiragana) yang benar untuk kanji yang digaris bawahi.',
+            color: '#e74c3c',
+            data: kanjiYomiData
+          },
+          {
+            id: 'hyouki',
+            title: 'Penulisan',
+            titleJp: '問題2：表記（ひょうき）',
+            icon: 'fa-pen-nib',
+            description: 'Pilih penulisan kanji/katakana yang benar untuk kata bergaris bawah.',
+            color: '#e67e22',
+            data: hyoukiData
+          },
+          {
+            id: 'bunmyaku-kitei',
+            title: 'Penentuan Konteks',
+            titleJp: '問題3：文脈規定',
+            icon: 'fa-puzzle-piece',
+            description: 'Pilih kata yang tepat sesuai konteks kalimat.',
+            color: '#f39c12',
+            data: bunkakukiteiData
+          },
+          {
+            id: 'iikae',
+            title: 'Parafrase / Sinonim',
+            titleJp: '問題4：言い換え類義',
+            icon: 'fa-arrows-rotate',
+            description: 'Pilih kata/frasa yang memiliki arti sama dengan kata bergaris bawah.',
+            color: '#d35400',
+            data: iikaeData
+          }
+        ]
+      },
+      {
+        groupId: 'bunpou-dokkai',
+        groupTitle: '第2科目：言語知識（文法）・読解',
+        groupTitleId: 'Bagian 2: Tata Bahasa & Pemahaman Bacaan',
+        categories: [
+          {
+            id: 'bunpou1',
+            title: 'Tata Bahasa 1 (Bentuk Gramatikal)',
+            titleJp: '問題1：文の文法1（文法形式の判断）',
+            icon: 'fa-spell-check',
+            description: 'Pilih bentuk gramatikal yang benar untuk melengkapi kalimat.',
+            color: '#3498db',
+            data: bunpou1Data
+          },
+          {
+            id: 'bunpou2',
+            title: 'Tata Bahasa 2 (Susunan Kalimat)',
+            titleJp: '問題2：文の文法2（文の組み立て）',
+            icon: 'fa-layer-group',
+            description: 'Pilih kata yang masuk di posisi ★ dalam kalimat.',
+            color: '#2980b9',
+            data: bunpou2Data
+          },
+          {
+            id: 'bunshou-bunpou',
+            title: 'Tata Bahasa Wacana',
+            titleJp: '問題3：文章の文法',
+            icon: 'fa-file-lines',
+            description: 'Pilih ekspresi yang tepat untuk melengkapi bagian kosong dalam paragraf.',
+            color: '#1abc9c',
+            data: bunshouBunpouData
+          },
+          {
+            id: 'naiyou-tanbun',
+            title: 'Pemahaman Isi (Teks Pendek)',
+            titleJp: '問題4：内容理解（短文）',
+            icon: 'fa-file-alt',
+            description: 'Baca teks pendek dan jawab pertanyaan tentang isinya.',
+            color: '#16a085',
+            data: naiyouTanbunData
+          },
+          {
+            id: 'naiyou-chuubun',
+            title: 'Pemahaman Isi (Teks Sedang)',
+            titleJp: '問題5：内容理解（中文）',
+            icon: 'fa-book',
+            description: 'Baca teks yang lebih panjang dan jawab pertanyaan tentang isinya.',
+            color: '#27ae60',
+            data: naiyouChuubunData
+          }
+        ]
+      }
+    ];
+
+    // 全カテゴリのフラットリスト
+    const ALL_CATEGORIES = CATEGORY_GROUPS.flatMap(g => g.categories);
+
+    // ============================================
+    // ユーティリティ関数
+    // ============================================
+    function shuffleArray(arr) {
+      const shuffled = [...arr];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function pickRandomQuestions(data, count) {
+      const shuffled = shuffleArray(data);
+      const picked = shuffled.slice(0, Math.min(count, data.length));
+      return picked.map(q => {
+        const correctAnswer = q.options[q.answer];
+        const shuffledOptions = shuffleArray(q.options);
+        const newAnswerIndex = shuffledOptions.indexOf(correctAnswer);
+        return { ...q, options: shuffledOptions, answer: newAnswerIndex };
+      });
+    }
+
+    // 【】で囲まれた部分をハイライト表示
+    function renderQuestion(text) {
+      const parts = text.split(/【|】/);
+      return parts.map((part, i) => {
+        if (i % 2 === 1) {
+          return <span key={i} className="highlight-word">{part}</span>;
+        }
+        // 改行を<br>に変換
+        return part.split('\n').map((line, j, arr) => (
+          <React.Fragment key={`${i}-${j}`}>
+            {line}
+            {j < arr.length - 1 && <br />}
+          </React.Fragment>
+        ));
+      });
+    }
+
+    // 問題文からプレーンテキストを取得（音声読み上げ用）
+    // 括弧や記号を除去し、空欄に正解を当てはめる
+    function getSpeechTextForResult(questionText, correctAnswerText) {
+      let text = questionText;
+      // 【】を除去
+      text = text.replace(/【|】/g, '');
+      // （　）（　　）や(　)系の空欄を正解に置換
+      text = text.replace(/[（\(]\s*[　 ]*\s*[）\)]/g, correctAnswerText);
+      // ★ や ＿＿ を除去
+      text = text.replace(/★/g, '').replace(/＿＿/g, '');
+      // 【読む文章】【質問】などのラベルを除去
+      text = text.replace(/【[^】]*】/g, '');
+      // 改行→句点
+      text = text.replace(/\n/g, '。');
+      // 連続する句点や空白を整理
+      text = text.replace(/。+/g, '。').replace(/^。|。$/g, '').trim();
+      // 長すぎる場合は省略
+      if (text.length > 80) {
+        text = text.substring(0, 80) + '…';
+      }
+      return text;
+    }
+
+    // ============================================
+    // Web Speech API ヘルパー
+    // ============================================
+    function speakJapanese(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.85;
+      utterance.pitch = 1.0;
+      // 日本語の音声を探す
+      const voices = window.speechSynthesis.getVoices();
+      const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+      if (jaVoice) utterance.voice = jaVoice;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // 音声読み上げボタンコンポーネント
+    function SpeakButton({ text, size }) {
+      const [speaking, setSpeaking] = useState(false);
+
+      const handleSpeak = (e) => {
+        e.stopPropagation();
+        if (!('speechSynthesis' in window)) {
+          alert('Maaf, browser Anda tidak mendukung Web Speech API.');
+          return;
+        }
+        window.speechSynthesis.cancel();
+        setSpeaking(true);
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.85;
+        const voices = window.speechSynthesis.getVoices();
+        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+        if (jaVoice) utterance.voice = jaVoice;
+        utterance.onend = () => setSpeaking(false);
+        utterance.onerror = () => setSpeaking(false);
+        window.speechSynthesis.speak(utterance);
+      };
+
+      const sizeClass = size === 'small' ? 'speak-btn speak-btn-sm' : 'speak-btn';
+
+      return (
+        <button className={sizeClass} onClick={handleSpeak} title="Dengarkan pengucapan (発音を聞く)">
+          <i className={`fas ${speaking ? 'fa-volume-up speak-animate' : 'fa-volume-up'}`}></i>
+        </button>
+      );
+    }
+
+    // ============================================
+    // ヘッダーコンポーネント
+    // ============================================
+    function Header({ onBack, showBack }) {
+      return (
+        <header className="app-header">
+          <div className="header-inner">
+            {showBack ? (
+              <button className="back-btn" onClick={onBack}>
+                <i className="fas fa-arrow-left"></i>
+                <span>Kembali</span>
+              </button>
+            ) : <div style={{width: '100px'}} />}
+            <div className="header-title">
+              <div className="header-logo">
+                <i className="fas fa-school"></i>
+              </div>
+              <div>
+                <h1>JLPT N5 Latihan</h1>
+                <p>日本語能力試験 N5 練習</p>
+              </div>
+            </div>
+            <div style={{width: '100px'}} />
+          </div>
+        </header>
+      );
+    }
+
+    // ============================================
+    // メニュー画面
+    // ============================================
+    function MenuScreen({ onSelectCategory }) {
+      return (
+        <div className="menu-screen">
+          <div className="welcome-section">
+            <div className="welcome-icon">
+              <i className="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Selamat Datang! ようこそ！</h2>
+            <p>Pilih jenis soal untuk memulai latihan JLPT N5.</p>
+            <p className="sub-text">練習する問題を選んでください。</p>
+          </div>
+
+          {CATEGORY_GROUPS.map(group => (
+            <div key={group.groupId} className="category-group">
+              <div className="group-header">
+                <h3 className="group-title-jp">{group.groupTitle}</h3>
+                <p className="group-title-id">{group.groupTitleId}</p>
+              </div>
+              <div className="category-grid">
+                {group.categories.map(cat => (
+                    <button
+                      key={cat.id}
+                      className="category-card"
+                      onClick={() => onSelectCategory(cat)}
+                      style={{ '--card-color': cat.color }}
+                    >
+                      <div className="card-icon" style={{ background: cat.color }}>
+                        <i className={`fas ${cat.icon}`}></i>
+                      </div>
+                      <div className="card-content">
+                        <h3>{cat.titleJp}</h3>
+                        <p className="card-title-id">{cat.title}</p>
+                        <p className="card-desc">{cat.description}</p>
+                      </div>
+                      <div className="card-arrow">
+                        <i className="fas fa-chevron-right"></i>
+                      </div>
+                    </button>
+                ))}
+              </div>
+            </div>
+          ))}
+
+
+        </div>
+      );
+    }
+
+    // ============================================
+    // 正解エフェクト（5種類、毎回発動）+ 不正解エフェクト
+    // ============================================
+    const CORRECT_EFFECTS = ['sparkle', 'confetti', 'ripple', 'floatUp', 'glow'];
+    const WRONG_EFFECTS = ['shake', 'crack', 'fadeRed'];
+
+    function AnswerEffect({ type }) {
+      if (type === 'sparkle') {
+        const stars = Array.from({ length: 8 }, (_, i) => {
+          const left = 10 + Math.random() * 80;
+          const delay = Math.random() * 0.3;
+          const size = 10 + Math.random() * 14;
+          return (
+            <span key={i} className="effect-sparkle-star" style={{
+              left: `${left}%`,
+              animationDelay: `${delay}s`,
+              fontSize: `${size}px`
+            }}>✦</span>
+          );
+        });
+        return <div className="effect-overlay">{stars}</div>;
+      }
+      if (type === 'confetti') {
+        const pieces = Array.from({ length: 12 }, (_, i) => {
+          const left = 5 + Math.random() * 90;
+          const delay = Math.random() * 0.4;
+          const colors = ['#f1c40f','#e74c3c','#3498db','#2ecc71','#9b59b6','#e67e22'];
+          const color = colors[i % colors.length];
+          return (
+            <span key={i} className="effect-confetti-piece" style={{
+              left: `${left}%`,
+              animationDelay: `${delay}s`,
+              background: color
+            }} />
+          );
+        });
+        return <div className="effect-overlay">{pieces}</div>;
+      }
+      if (type === 'ripple') {
+        return (
+          <div className="effect-overlay effect-ripple">
+            <span className="effect-ripple-ring" style={{ animationDelay: '0s' }} />
+            <span className="effect-ripple-ring" style={{ animationDelay: '0.15s' }} />
+          </div>
+        );
+      }
+      if (type === 'floatUp') {
+        const emojis = ['🎉','⭐','✨','💯','👏'];
+        const items = Array.from({ length: 6 }, (_, i) => {
+          const left = 10 + Math.random() * 80;
+          const delay = Math.random() * 0.3;
+          const emoji = emojis[i % emojis.length];
+          return (
+            <span key={i} className="effect-float-item" style={{
+              left: `${left}%`,
+              animationDelay: `${delay}s`
+            }}>{emoji}</span>
+          );
+        });
+        return <div className="effect-overlay">{items}</div>;
+      }
+      if (type === 'glow') {
+        return <div className="effect-overlay effect-glow-flash" />;
+      }
+      // 不正解エフェクト
+      if (type === 'shake') {
+        return <div className="effect-overlay effect-shake-overlay" />;
+      }
+      if (type === 'crack') {
+        return (
+          <div className="effect-overlay effect-crack-overlay">
+            <span className="effect-crack-x">✕</span>
+          </div>
+        );
+      }
+      if (type === 'fadeRed') {
+        return <div className="effect-overlay effect-fade-red" />;
+      }
+      return null;
+    }
+
+    // ============================================
+    // クイズ画面
+    // ============================================
+    function QuizScreen({ category, onFinish }) {
+      const quizCount = getQuizCount(category.id);
+      const [questions] = useState(() => pickRandomQuestions(category.data, quizCount));
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [selectedOption, setSelectedOption] = useState(null);
+      const [answered, setAnswered] = useState(false);
+      const [results, setResults] = useState([]);
+      const [activeEffect, setActiveEffect] = useState(null);
+
+      const currentQ = questions[currentIndex];
+      const isCorrect = selectedOption === currentQ.answer;
+      const progress = ((currentIndex) / questions.length) * 100;
+
+      const handleSelect = (optIndex) => {
+        if (answered) return;
+        setSelectedOption(optIndex);
+        setAnswered(true);
+        const wasCorrect = optIndex === currentQ.answer;
+        setResults(prev => [...prev, {
+          question: currentQ,
+          selected: optIndex,
+          correct: wasCorrect
+        }]);
+        // 正解時：毎回ランダムで正解エフェクト
+        // 不正解時：毎回ランダムで不正解エフェクト
+        if (wasCorrect) {
+          const effectType = CORRECT_EFFECTS[Math.floor(Math.random() * CORRECT_EFFECTS.length)];
+          setActiveEffect(effectType);
+          setTimeout(() => setActiveEffect(null), 1400);
+        } else {
+          const effectType = WRONG_EFFECTS[Math.floor(Math.random() * WRONG_EFFECTS.length)];
+          setActiveEffect(effectType);
+          setTimeout(() => setActiveEffect(null), 800);
+        }
+      };
+
+      const handleNext = () => {
+        if (currentIndex + 1 >= questions.length) {
+          onFinish(results);
+        } else {
+          setCurrentIndex(prev => prev + 1);
+          setSelectedOption(null);
+          setAnswered(false);
+        }
+      };
+
+      const getOptionClass = (optIndex) => {
+        if (!answered) return 'option-btn';
+        if (optIndex === currentQ.answer) return 'option-btn option-correct';
+        if (optIndex === selectedOption && optIndex !== currentQ.answer) return 'option-btn option-wrong';
+        return 'option-btn option-disabled';
+      };
+
+      const quizShakeClass = activeEffect === 'shake' ? ' quiz-shaking' : '';
+
+      return (
+        <div className={`quiz-screen${quizShakeClass}`} style={{ position: 'relative' }}>
+          {activeEffect && activeEffect !== 'shake' && <AnswerEffect type={activeEffect} />}
+          <div className="quiz-header">
+            <div className="quiz-category-badge" style={{ background: category.color }}>
+              <i className={`fas ${category.icon}`}></i>
+              <span>{category.titleJp}</span>
+            </div>
+            <div className="quiz-progress-info">
+              <span>Soal {currentIndex + 1} / {questions.length}</span>
+            </div>
+          </div>
+
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progress}%`, background: category.color }}></div>
+          </div>
+
+          <div className="question-card">
+            <div className="question-number">
+              <span className="q-num">Q{currentIndex + 1}</span>
+            </div>
+            <p className="question-text">{renderQuestion(currentQ.question)}</p>
+
+            {/* 翻訳は回答後のみ表示 */}
+            {answered && (
+              <div className="question-translation translation-reveal">
+                <i className="fas fa-language"></i> {currentQ.translation}
+              </div>
+            )}
+          </div>
+
+          <div className="options-grid">
+            {currentQ.options.map((opt, i) => (
+              <button
+                key={i}
+                className={getOptionClass(i)}
+                onClick={() => handleSelect(i)}
+                disabled={answered}
+              >
+                <span className="option-number">{i + 1}</span>
+                <span className="option-text">{opt}</span>
+                {answered && i === currentQ.answer && (
+                  <i className="fas fa-check-circle option-icon"></i>
+                )}
+                {answered && i === selectedOption && i !== currentQ.answer && (
+                  <i className="fas fa-times-circle option-icon"></i>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {answered && (
+            <div className={`feedback-box ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}`}>
+              <div className="feedback-header">
+                {isCorrect ? (
+                  <>
+                    <i className="fas fa-check-circle"></i>
+                    <span>Benar! 正解！ 🎉</span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-times-circle"></i>
+                    <span>Salah... 不正解 😥</span>
+                  </>
+                )}
+              </div>
+              {!isCorrect && (
+                <p className="feedback-answer">
+                  Jawaban yang benar: <strong>{currentQ.options[currentQ.answer]}</strong>
+                </p>
+              )}
+              <button className="next-btn" onClick={handleNext} style={{ background: category.color }}>
+                {currentIndex + 1 >= questions.length ? (
+                  <><i className="fas fa-trophy"></i> Lihat Hasil</>
+                ) : (
+                  <><i className="fas fa-arrow-right"></i> Soal Berikutnya</>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ============================================
+    // 結果画面
+    // ============================================
+    function ResultScreen({ category, results, onRetry, onMenu }) {
+      const correctCount = results.filter(r => r.correct).length;
+      const totalCount = results.length;
+      const percentage = Math.round((correctCount / totalCount) * 100);
+
+      // Web Speech APIの音声を事前ロード
+      useEffect(() => {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.getVoices();
+        }
+      }, []);
+
+      const getGrade = () => {
+        if (percentage === 100) return { emoji: '🏆', text: 'Sempurna!', textJp: '完璧！', class: 'grade-perfect' };
+        if (percentage >= 80) return { emoji: '🎉', text: 'Hebat!', textJp: 'すごい！', class: 'grade-great' };
+        if (percentage >= 60) return { emoji: '👍', text: 'Bagus!', textJp: 'いいね！', class: 'grade-good' };
+        if (percentage >= 40) return { emoji: '💪', text: 'Terus berusaha!', textJp: 'がんばって！', class: 'grade-ok' };
+        return { emoji: '📚', text: 'Ayo belajar lagi!', textJp: 'もっとがんばろう！', class: 'grade-low' };
+      };
+
+      const grade = getGrade();
+
+
+
+      return (
+        <div className="result-screen">
+          <div className={`result-hero ${grade.class}`}>
+            <div className="result-emoji">{grade.emoji}</div>
+            <h2>{grade.text}</h2>
+            <p className="result-jp">{grade.textJp}</p>
+            <div className="result-score">
+              <div className="score-circle">
+                <span className="score-number">{correctCount}</span>
+                <span className="score-divider">/</span>
+                <span className="score-total">{totalCount}</span>
+              </div>
+              <p className="score-percent">{percentage}% benar</p>
+            </div>
+          </div>
+
+          <div className="result-details">
+            <h3><i className="fas fa-list-check"></i> Detail Jawaban</h3>
+            {results.map((r, i) => (
+              <div key={i} className={`result-item ${r.correct ? 'item-correct' : 'item-wrong'}`}>
+                <div className="result-item-header">
+                  <span className="result-q-num">Q{i + 1}</span>
+                  <div className="result-item-actions">
+                    <SpeakButton text={getSpeechTextForResult(r.question.question, r.question.options[r.question.answer])} size="small" />
+                    {r.correct ? (
+                      <span className="result-badge badge-correct"><i className="fas fa-check"></i> Benar</span>
+                    ) : (
+                      <span className="result-badge badge-wrong"><i className="fas fa-times"></i> Salah</span>
+                    )}
+                  </div>
+                </div>
+                <p className="result-question">{renderQuestion(r.question.question)}</p>
+                <p className="result-translation">
+                  <i className="fas fa-language"></i> {r.question.translation}
+                </p>
+                <div className="result-answers">
+                  {!r.correct && (
+                    <p className="your-answer">
+                      <i className="fas fa-times"></i> Jawaban Anda: <strong>{r.question.options[r.selected]}</strong>
+                    </p>
+                  )}
+                  <p className="correct-answer">
+                    <i className="fas fa-check"></i> Jawaban benar: <strong>{r.question.options[r.question.answer]}</strong>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="result-actions">
+            <button className="retry-btn" onClick={onRetry} style={{ background: category.color }}>
+              <i className="fas fa-redo"></i> Coba Lagi ({category.title})
+            </button>
+            <button className="menu-btn" onClick={onMenu}>
+              <i className="fas fa-home"></i> Kembali ke Menu
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================
+    // メインApp
+    // ============================================
+    function App() {
+      const [screen, setScreen] = useState('menu');
+      const [selectedCategory, setSelectedCategory] = useState(null);
+      const [quizResults, setQuizResults] = useState(null);
+      const [quizKey, setQuizKey] = useState(0);
+
+      // 音声読み込みを初期化
+      useEffect(() => {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.getVoices();
+          window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+          };
+        }
+      }, []);
+
+      const handleSelectCategory = (cat) => {
+        setSelectedCategory(cat);
+        setScreen('quiz');
+        setQuizKey(prev => prev + 1);
+        window.scrollTo(0, 0);
+      };
+
+      const handleFinish = (results) => {
+        setQuizResults(results);
+        setScreen('result');
+        window.scrollTo(0, 0);
+      };
+
+      const handleRetry = () => {
+        setScreen('quiz');
+        setQuizKey(prev => prev + 1);
+        setQuizResults(null);
+        window.scrollTo(0, 0);
+      };
+
+      const handleMenu = () => {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        setScreen('menu');
+        setSelectedCategory(null);
+        setQuizResults(null);
+        window.scrollTo(0, 0);
+      };
+
+      return (
+        <div className="app">
+          <Header
+            showBack={screen !== 'menu'}
+            onBack={handleMenu}
+          />
+          <main className="main-content">
+            {screen === 'menu' && (
+              <MenuScreen onSelectCategory={handleSelectCategory} />
+            )}
+            {screen === 'quiz' && selectedCategory && (
+              <QuizScreen
+                key={quizKey}
+                category={selectedCategory}
+                onFinish={handleFinish}
+              />
+            )}
+            {screen === 'result' && selectedCategory && quizResults && (
+              <ResultScreen
+                category={selectedCategory}
+                results={quizResults}
+                onRetry={handleRetry}
+                onMenu={handleMenu}
+              />
+            )}
+          </main>
+          <footer className="app-footer">
+            <p>JLPT N5 Latihan &copy; 2026 | Untuk pelajar bahasa Jepang dari Indonesia 🇮🇩🇯🇵</p>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
