@@ -1,1227 +1,751 @@
-/* ============================================
-   JLPT N5 Latihan - Main Stylesheet
-   ============================================ */
-
-/* --- Reset & Base --- */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --bg-primary: #f0f2f5;
-  --bg-white: #ffffff;
-  --text-primary: #1a1a2e;
-  --text-secondary: #555;
-  --text-muted: #888;
-  --border-color: #e0e0e0;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-  --correct-bg: #d4edda;
-  --correct-border: #28a745;
-  --correct-text: #155724;
-  --wrong-bg: #f8d7da;
-  --wrong-border: #dc3545;
-  --wrong-text: #721c24;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --transition: all 0.3s ease;
-}
-
-body {
-  font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* --- Header --- */
-.app-header {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  color: white;
-  padding: 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-
-.header-inner {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-align: center;
-}
-
-.header-logo {
-  width: 44px;
-  height: 44px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-.header-title h1 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.header-title p {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  font-weight: 300;
-}
-
-.back-btn {
-  background: rgba(255,255,255,0.15);
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.back-btn:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-/* --- Main Content --- */
-.main-content {
-  flex: 1;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px 16px;
-  width: 100%;
-}
-
-/* --- Menu Screen --- */
-.welcome-section {
-  text-align: center;
-  padding: 32px 20px;
-  margin-bottom: 8px;
-}
-
-.welcome-icon {
-  width: 72px;
-  height: 72px;
-  background: linear-gradient(135deg, #e74c3c, #e67e22);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px;
-  font-size: 32px;
-  color: white;
-  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.3);
-}
-
-.welcome-section h2 {
-  font-size: 1.6rem;
-  margin-bottom: 8px;
-  color: var(--text-primary);
-}
-
-.welcome-section p {
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-.welcome-section .sub-text {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-top: 4px;
-}
-
-/* --- Hiragana/Katakana Banner --- */
-.hirakata-banner {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24, #f0932b);
-  border-radius: var(--radius-lg);
-  color: white;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(238, 90, 36, 0.3);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-
-.hirakata-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 200px;
-  height: 200px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 50%;
-}
-
-.hirakata-banner:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(238, 90, 36, 0.4);
-  filter: brightness(1.05);
-}
-
-.hirakata-banner:active {
-  transform: scale(0.98);
-}
-
-.hirakata-banner-icon {
-  width: 52px;
-  height: 52px;
-  background: rgba(255,255,255,0.2);
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  flex-shrink: 0;
-  font-weight: 700;
-  font-size: 1.2rem;
-  font-family: 'Noto Sans JP', sans-serif;
-}
-
-.hirakata-banner-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.hirakata-banner-content h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.hirakata-banner-content p {
-  font-size: 0.8rem;
-  opacity: 0.85;
-  font-weight: 400;
-}
-
-.hirakata-banner .card-arrow {
-  color: rgba(255,255,255,0.7);
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-/* --- Category Group (科目グループ) --- */
-.category-group {
-  margin-bottom: 28px;
-}
-
-.group-header {
-  padding: 14px 18px;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  color: white;
-}
-
-.group-title-jp {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.group-title-id {
-  font-size: 0.78rem;
-  opacity: 0.7;
-  font-weight: 400;
-}
-
-.category-group .category-grid {
-  border: 2px solid #16213e;
-  border-top: none;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  padding: 14px;
-  background: var(--bg-primary);
-}
-
-/* --- Category Cards --- */
-.category-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.category-card {
-  background: var(--bg-white);
-  border: 2px solid transparent;
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: left;
-  font-family: inherit;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-}
-
-.category-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--card-color, #ccc);
-}
-
-.category-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--card-color, #ccc);
-}
-
-.category-card:active {
-  transform: scale(0.98);
-}
-
-.card-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.card-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.card-content h3 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin-bottom: 2px;
-  color: var(--text-primary);
-}
-
-.card-title-id {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.card-desc {
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
-  margin-bottom: 0;
-}
-
-.card-arrow {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-/* --- Info Box --- */
-.info-box {
-  background: #eaf4fc;
-  border: 1px solid #b8d8f0;
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  font-size: 0.85rem;
-  color: #2c5f8a;
-  line-height: 1.5;
-}
-
-.info-box i {
-  font-size: 1.1rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-.info-box .jp-text {
-  display: block;
-  margin-top: 4px;
-  opacity: 0.7;
-  font-size: 0.8rem;
-}
-
-/* --- Quiz Screen --- */
-.quiz-screen {
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.quiz-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.quiz-category-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  color: white;
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.quiz-progress-info {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.progress-bar-container {
-  height: 6px;
-  background: var(--border-color);
-  border-radius: 3px;
-  margin-bottom: 24px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.4s ease;
-}
-
-/* --- Question Card --- */
-.question-card {
-  background: var(--bg-white);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-}
-
-.question-number {
-  margin-bottom: 14px;
-}
-
-.q-num {
-  background: var(--text-primary);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.question-text {
-  font-size: 1.3rem;
-  font-weight: 500;
-  line-height: 1.8;
-  margin-bottom: 12px;
-  font-family: 'Noto Sans JP', sans-serif;
-}
-
-.highlight-word {
-  background: linear-gradient(to bottom, transparent 60%, #ffeaa7 60%);
-  font-weight: 700;
-  padding: 0 2px;
-  text-decoration: underline;
-  text-decoration-color: #e74c3c;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
-}
-
-/* --- Translation (回答後のみ表示) --- */
-.question-translation {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-style: italic;
-  border-top: 1px solid var(--border-color);
-  padding-top: 10px;
-}
-
-.question-translation i {
-  margin-right: 6px;
-  color: #3498db;
-}
-
-.translation-reveal {
-  animation: revealTranslation 0.4s ease;
-}
-
-@keyframes revealTranslation {
-  from {
-    opacity: 0;
-    max-height: 0;
-    padding-top: 0;
-    margin-top: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 200px;
-    padding-top: 10px;
-  }
-}
-
-/* --- Options --- */
-.options-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.option-btn {
-  background: var(--bg-white);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: 'Noto Sans JP', 'Inter', sans-serif;
-  font-size: 1.05rem;
-  text-align: left;
-  position: relative;
-}
-
-.option-btn:hover:not(:disabled) {
-  border-color: #999;
-  background: #fafafa;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.option-btn:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
-.option-number {
-  width: 30px;
-  height: 30px;
-  background: var(--bg-primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-  flex-shrink: 0;
-}
-
-.option-text {
-  flex: 1;
-  font-weight: 500;
-}
-
-.option-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-/* Option States */
-.option-correct {
-  background: var(--correct-bg) !important;
-  border-color: var(--correct-border) !important;
-  color: var(--correct-text);
-}
-
-.option-correct .option-number {
-  background: var(--correct-border);
-  color: white;
-}
-
-.option-correct .option-icon {
-  color: var(--correct-border);
-}
-
-.option-wrong {
-  background: var(--wrong-bg) !important;
-  border-color: var(--wrong-border) !important;
-  color: var(--wrong-text);
-}
-
-.option-wrong .option-number {
-  background: var(--wrong-border);
-  color: white;
-}
-
-.option-wrong .option-icon {
-  color: var(--wrong-border);
-}
-
-.option-disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-/* --- Feedback --- */
-.feedback-box {
-  border-radius: var(--radius-lg);
-  padding: 20px 24px;
-  text-align: center;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.feedback-correct {
-  background: var(--correct-bg);
-  border: 2px solid var(--correct-border);
-}
-
-.feedback-wrong {
-  background: var(--wrong-bg);
-  border: 2px solid var(--wrong-border);
-}
-
-.feedback-header {
-  font-size: 1.2rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.feedback-correct .feedback-header {
-  color: var(--correct-text);
-}
-
-.feedback-wrong .feedback-header {
-  color: var(--wrong-text);
-}
-
-.feedback-answer {
-  font-size: 0.95rem;
-  margin-bottom: 12px;
-}
-
-.feedback-wrong .feedback-answer {
-  color: var(--wrong-text);
-}
-
-.next-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
-  border: none;
-  border-radius: var(--radius-sm);
-  color: white;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.next-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-/* --- Correct Effect Overlay --- */
-.effect-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 50;
-  overflow: hidden;
-}
-
-/* Correct 1: Sparkle Stars */
-.effect-sparkle-star {
-  position: absolute;
-  top: -10px;
-  color: #f1c40f;
-  animation: sparkle-fall 1.2s ease-out forwards;
-  text-shadow: 0 0 6px rgba(241, 196, 15, 0.5);
-}
-
-@keyframes sparkle-fall {
-  0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(0.5); }
-  50% { opacity: 1; transform: translateY(80px) rotate(180deg) scale(1.2); }
-  100% { opacity: 0; transform: translateY(180px) rotate(360deg) scale(0.3); }
-}
-
-/* Correct 2: Confetti */
-.effect-confetti-piece {
-  position: absolute;
-  top: -8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  animation: confetti-drop 1.3s ease-out forwards;
-}
-
-@keyframes confetti-drop {
-  0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
-  100% { opacity: 0; transform: translateY(200px) rotate(720deg) scale(0.4); }
-}
-
-/* Correct 3: Ripple */
-.effect-ripple {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.effect-ripple-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 3px solid rgba(46, 204, 113, 0.6);
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple-expand 1s ease-out forwards;
-}
-
-@keyframes ripple-expand {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(18); opacity: 0; }
-}
-
-/* Correct 4: Float Up Emoji */
-.effect-float-item {
-  position: absolute;
-  bottom: 0;
-  font-size: 1.6rem;
-  animation: float-up 1.3s ease-out forwards;
-}
-
-@keyframes float-up {
-  0% { opacity: 1; transform: translateY(0) scale(0.5); }
-  40% { opacity: 1; transform: translateY(-100px) scale(1.1); }
-  100% { opacity: 0; transform: translateY(-220px) scale(0.6); }
-}
-
-/* Correct 5: Glow Flash */
-.effect-glow-flash {
-  background: radial-gradient(ellipse at center, rgba(46,204,113,0.25) 0%, transparent 70%);
-  animation: glow-pulse 1.2s ease-out forwards;
-}
-
-@keyframes glow-pulse {
-  0% { opacity: 0; transform: scale(0.5); }
-  30% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.3); }
-}
-
-/* --- Wrong Effect --- */
-
-/* Wrong 1: Shake - applied to quiz-screen itself */
-.quiz-shaking {
-  animation: shake-screen 0.5s ease-out;
-}
-
-@keyframes shake-screen {
-  0%, 100% { transform: translateX(0); }
-  15% { transform: translateX(-6px); }
-  30% { transform: translateX(6px); }
-  45% { transform: translateX(-4px); }
-  60% { transform: translateX(4px); }
-  75% { transform: translateX(-2px); }
-  90% { transform: translateX(2px); }
-}
-
-/* Wrong 2: Crack X */
-.effect-crack-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.effect-crack-x {
-  font-size: 5rem;
-  color: rgba(220, 53, 69, 0.25);
-  animation: crack-appear 0.7s ease-out forwards;
-}
-
-@keyframes crack-appear {
-  0% { opacity: 0; transform: scale(3) rotate(-10deg); }
-  30% { opacity: 0.5; transform: scale(1) rotate(0deg); }
-  100% { opacity: 0; transform: scale(0.8) rotate(5deg); }
-}
-
-/* Wrong 3: Fade Red */
-.effect-fade-red {
-  background: rgba(220, 53, 69, 0.12);
-  animation: fade-red-pulse 0.7s ease-out forwards;
-}
-
-@keyframes fade-red-pulse {
-  0% { opacity: 0; }
-  30% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* --- Speak Button --- */
-.speak-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #3498db;
-  background: #eaf4fc;
-  color: #3498db;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-.speak-btn:hover {
-  background: #3498db;
-  color: white;
-  transform: scale(1.1);
-}
-
-.speak-btn-sm {
-  width: 32px;
-  height: 32px;
-  font-size: 0.8rem;
-}
-
-.speak-animate {
-  animation: pulse-speak 0.6s ease infinite alternate;
-}
-
-@keyframes pulse-speak {
-  from { transform: scale(1); }
-  to { transform: scale(1.2); }
-}
-
-/* --- Result Screen --- */
-.result-screen {
-  animation: fadeIn 0.5s ease;
-}
-
-.result-hero {
-  text-align: center;
-  padding: 36px 24px;
-  border-radius: var(--radius-xl);
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-md);
-}
-
-.grade-perfect { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
-.grade-great { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
-.grade-good { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
-.grade-ok { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
-.grade-low { background: linear-gradient(135deg, #f5f7fa, #c3cfe2); }
-
-.result-emoji {
-  font-size: 4rem;
-  margin-bottom: 8px;
-}
-
-.result-hero h2 {
-  font-size: 1.6rem;
-  color: var(--text-primary);
-}
-
-.result-jp {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-}
-
-.result-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.score-circle {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 4px;
-}
-
-.score-number {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.score-divider {
-  font-size: 2rem;
-  color: var(--text-muted);
-}
-
-.score-total {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.score-percent {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-/* --- Result Details --- */
-.result-details {
-  background: var(--bg-white);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-}
-
-.result-details h3 {
-  font-size: 1.05rem;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-primary);
-}
-
-.result-item {
-  padding: 16px;
-  border-radius: var(--radius-md);
-  margin-bottom: 12px;
-  border-left: 4px solid;
-}
-
-.item-correct {
-  background: #f0faf0;
-  border-left-color: var(--correct-border);
-}
-
-.item-wrong {
-  background: #fef5f5;
-  border-left-color: var(--wrong-border);
-}
-
-.result-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.result-item-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.result-q-num {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.result-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.badge-correct {
-  background: var(--correct-bg);
-  color: var(--correct-text);
-}
-
-.badge-wrong {
-  background: var(--wrong-bg);
-  color: var(--wrong-text);
-}
-
-.result-question {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
-  margin-bottom: 6px;
-}
-
-.result-translation {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-bottom: 8px;
-  padding: 6px 10px;
-  background: #f8f9fa;
-  border-radius: 6px;
-  border-left: 3px solid #3498db;
-}
-
-.result-translation i {
-  margin-right: 6px;
-  color: #3498db;
-}
-
-.result-answers {
-  font-size: 0.85rem;
-}
-
-.your-answer {
-  color: var(--wrong-text);
-  margin-bottom: 4px;
-}
-
-.your-answer i { color: var(--wrong-border); margin-right: 4px; }
-
-.correct-answer {
-  color: var(--correct-text);
-}
-
-.correct-answer i { color: var(--correct-border); margin-right: 4px; }
-
-/* --- Result Actions --- */
-.result-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.retry-btn, .menu-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 24px;
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.retry-btn {
-  color: white;
-}
-
-.retry-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-.menu-btn {
-  background: var(--bg-white);
-  color: var(--text-secondary);
-  border: 2px solid var(--border-color);
-}
-
-.menu-btn:hover {
-  background: var(--bg-primary);
-  border-color: #ccc;
-}
-
-/* --- Footer --- */
-.app-footer {
-  text-align: center;
-  padding: 20px;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  border-top: 1px solid var(--border-color);
-  margin-top: auto;
-}
-
-/* ============================================
-   Responsive
-   ============================================ */
-@media (max-width: 600px) {
-  .hirakata-banner {
-    padding: 14px;
-    gap: 12px;
-  }
-
-  .hirakata-banner-icon {
-    width: 44px;
-    height: 44px;
-    font-size: 1rem;
-  }
-
-  .hirakata-banner-content h3 {
-    font-size: 0.9rem;
-  }
-
-  .hirakata-banner-content p {
-    font-size: 0.75rem;
-  }
-
-  .header-inner {
-    padding: 10px 12px;
-  }
-
-  .header-title h1 {
-    font-size: 1rem;
-  }
-
-  .header-logo {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-
-  .back-btn {
-    padding: 6px 10px;
-    font-size: 0.8rem;
-  }
-
-  .back-btn span {
-    display: none;
-  }
-
-  .main-content {
-    padding: 16px 12px;
-  }
-
-  .welcome-section {
-    padding: 20px 12px;
-  }
-
-  .welcome-section h2 {
-    font-size: 1.3rem;
-  }
-
-  .welcome-icon {
-    width: 60px;
-    height: 60px;
-    font-size: 26px;
-  }
-
-  .group-header {
-    padding: 10px 14px;
-  }
-
-  .group-title-jp {
-    font-size: 0.9rem;
-  }
-
-  .category-group .category-grid {
-    padding: 10px;
-  }
-
-  .category-card {
-    padding: 14px;
-    gap: 10px;
-  }
-
-  .card-icon {
-    width: 42px;
-    height: 42px;
-    font-size: 16px;
-  }
-
-  .card-content h3 {
-    font-size: 0.88rem;
-  }
-
-  .card-desc {
-    font-size: 0.75rem;
-  }
-
-  .question-card {
-    padding: 20px 16px;
-  }
-
-  .question-text {
-    font-size: 1.1rem;
-  }
-
-  .options-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .option-btn {
-    padding: 14px;
-  }
-
-  .result-emoji {
-    font-size: 3rem;
-  }
-
-  .score-number {
-    font-size: 2.8rem;
-  }
-
-  .result-details {
-    padding: 16px;
-  }
-
-  .result-item {
-    padding: 12px;
-  }
-
-  .quiz-category-badge span {
-    font-size: 0.72rem;
-  }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .options-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLPT N5 Latihan - Belajar Bahasa Jepang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+  <!-- 第1科目：言語知識（文字・語彙）-->
+  <script src="data/kanji-yomi.js"></script>
+  <script src="data/hyouki.js"></script>
+  <script src="data/bunmyaku-kitei.js"></script>
+  <script src="data/iikae.js"></script>
+  <!-- 第2科目：言語知識（文法）・読解 -->
+  <script src="data/bunpou1.js"></script>
+  <script src="data/bunpou2.js"></script>
+  <script src="data/bunshou-bunpou.js"></script>
+  <script src="data/naiyou-tanbun.js"></script>
+  <script src="data/naiyou-chuubun.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-type="module">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    // ============================================
+    // 定数
+    // ============================================
+    const QUESTIONS_PER_QUIZ = 10;
+
+    // カテゴリ別の出題数上書き
+    const QUIZ_COUNT_OVERRIDE = {
+      'naiyou-chuubun': 2,
+      'naiyou-tanbun': 5
+    };
+
+    function getQuizCount(categoryId) {
+      return QUIZ_COUNT_OVERRIDE[categoryId] || QUESTIONS_PER_QUIZ;
+    }
+
+    // ============================================
+    // カテゴリ定義（科目グループ付き）
+    // ============================================
+    const CATEGORY_GROUPS = [
+      {
+        groupId: 'moji-goi',
+        groupTitle: '第1科目：言語知識（文字・語彙）',
+        groupTitleId: 'Bagian 1: Pengetahuan Bahasa (Huruf & Kosakata)',
+        categories: [
+          {
+            id: 'kanji-yomi',
+            title: 'Membaca Kanji',
+            titleJp: '問題1：漢字読み',
+            icon: 'fa-book-open',
+            description: 'Pilih cara baca (hiragana) yang benar untuk kanji yang digaris bawahi.',
+            color: '#e74c3c',
+            data: kanjiYomiData
+          },
+          {
+            id: 'hyouki',
+            title: 'Penulisan',
+            titleJp: '問題2：表記（ひょうき）',
+            icon: 'fa-pen-nib',
+            description: 'Pilih penulisan kanji/katakana yang benar untuk kata bergaris bawah.',
+            color: '#e67e22',
+            data: hyoukiData
+          },
+          {
+            id: 'bunmyaku-kitei',
+            title: 'Penentuan Konteks',
+            titleJp: '問題3：文脈規定',
+            icon: 'fa-puzzle-piece',
+            description: 'Pilih kata yang tepat sesuai konteks kalimat.',
+            color: '#f39c12',
+            data: bunkakukiteiData
+          },
+          {
+            id: 'iikae',
+            title: 'Parafrase / Sinonim',
+            titleJp: '問題4：言い換え類義',
+            icon: 'fa-arrows-rotate',
+            description: 'Pilih kata/frasa yang memiliki arti sama dengan kata bergaris bawah.',
+            color: '#d35400',
+            data: iikaeData
+          }
+        ]
+      },
+      {
+        groupId: 'bunpou-dokkai',
+        groupTitle: '第2科目：言語知識（文法）・読解',
+        groupTitleId: 'Bagian 2: Tata Bahasa & Pemahaman Bacaan',
+        categories: [
+          {
+            id: 'bunpou1',
+            title: 'Tata Bahasa 1 (Bentuk Gramatikal)',
+            titleJp: '問題1：文の文法1（文法形式の判断）',
+            icon: 'fa-spell-check',
+            description: 'Pilih bentuk gramatikal yang benar untuk melengkapi kalimat.',
+            color: '#3498db',
+            data: bunpou1Data
+          },
+          {
+            id: 'bunpou2',
+            title: 'Tata Bahasa 2 (Susunan Kalimat)',
+            titleJp: '問題2：文の文法2（文の組み立て）',
+            icon: 'fa-layer-group',
+            description: 'Pilih kata yang masuk di posisi ★ dalam kalimat.',
+            color: '#2980b9',
+            data: bunpou2Data
+          },
+          {
+            id: 'bunshou-bunpou',
+            title: 'Tata Bahasa Wacana',
+            titleJp: '問題3：文章の文法',
+            icon: 'fa-file-lines',
+            description: 'Pilih ekspresi yang tepat untuk melengkapi bagian kosong dalam paragraf.',
+            color: '#1abc9c',
+            data: bunshouBunpouData
+          },
+          {
+            id: 'naiyou-tanbun',
+            title: 'Pemahaman Isi (Teks Pendek)',
+            titleJp: '問題4：内容理解（短文）',
+            icon: 'fa-file-alt',
+            description: 'Baca teks pendek dan jawab pertanyaan tentang isinya.',
+            color: '#16a085',
+            data: naiyouTanbunData
+          },
+          {
+            id: 'naiyou-chuubun',
+            title: 'Pemahaman Isi (Teks Sedang)',
+            titleJp: '問題5：内容理解（中文）',
+            icon: 'fa-book',
+            description: 'Baca teks yang lebih panjang dan jawab pertanyaan tentang isinya.',
+            color: '#27ae60',
+            data: naiyouChuubunData
+          }
+        ]
+      }
+    ];
+
+    // 全カテゴリのフラットリスト
+    const ALL_CATEGORIES = CATEGORY_GROUPS.flatMap(g => g.categories);
+
+    // ============================================
+    // ユーティリティ関数
+    // ============================================
+    function shuffleArray(arr) {
+      const shuffled = [...arr];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function pickRandomQuestions(data, count) {
+      const shuffled = shuffleArray(data);
+      const picked = shuffled.slice(0, Math.min(count, data.length));
+      return picked.map(q => {
+        const correctAnswer = q.options[q.answer];
+        const shuffledOptions = shuffleArray(q.options);
+        const newAnswerIndex = shuffledOptions.indexOf(correctAnswer);
+        return { ...q, options: shuffledOptions, answer: newAnswerIndex };
+      });
+    }
+
+    // 【】で囲まれた部分をハイライト表示
+    function renderQuestion(text) {
+      const parts = text.split(/【|】/);
+      return parts.map((part, i) => {
+        if (i % 2 === 1) {
+          return <span key={i} className="highlight-word">{part}</span>;
+        }
+        // 改行を<br>に変換
+        return part.split('\n').map((line, j, arr) => (
+          <React.Fragment key={`${i}-${j}`}>
+            {line}
+            {j < arr.length - 1 && <br />}
+          </React.Fragment>
+        ));
+      });
+    }
+
+    // 問題文からプレーンテキストを取得（音声読み上げ用）
+    // 括弧や記号を除去し、空欄に正解を当てはめる
+    function getSpeechTextForResult(questionText, correctAnswerText) {
+      let text = questionText;
+      // 【】を除去
+      text = text.replace(/【|】/g, '');
+      // （　）（　　）や(　)系の空欄を正解に置換
+      text = text.replace(/[（\(]\s*[　 ]*\s*[）\)]/g, correctAnswerText);
+      // ★ や ＿＿ を除去
+      text = text.replace(/★/g, '').replace(/＿＿/g, '');
+      // 【読む文章】【質問】などのラベルを除去
+      text = text.replace(/【[^】]*】/g, '');
+      // 改行→句点
+      text = text.replace(/\n/g, '。');
+      // 連続する句点や空白を整理
+      text = text.replace(/。+/g, '。').replace(/^。|。$/g, '').trim();
+      // 長すぎる場合は省略
+      if (text.length > 80) {
+        text = text.substring(0, 80) + '…';
+      }
+      return text;
+    }
+
+    // ============================================
+    // Web Speech API ヘルパー
+    // ============================================
+    function speakJapanese(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.85;
+      utterance.pitch = 1.0;
+      // 日本語の音声を探す
+      const voices = window.speechSynthesis.getVoices();
+      const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+      if (jaVoice) utterance.voice = jaVoice;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // 音声読み上げボタンコンポーネント
+    function SpeakButton({ text, size }) {
+      const [speaking, setSpeaking] = useState(false);
+
+      const handleSpeak = (e) => {
+        e.stopPropagation();
+        if (!('speechSynthesis' in window)) {
+          alert('Maaf, browser Anda tidak mendukung Web Speech API.');
+          return;
+        }
+        window.speechSynthesis.cancel();
+        setSpeaking(true);
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.85;
+        const voices = window.speechSynthesis.getVoices();
+        const jaVoice = voices.find(v => v.lang.startsWith('ja'));
+        if (jaVoice) utterance.voice = jaVoice;
+        utterance.onend = () => setSpeaking(false);
+        utterance.onerror = () => setSpeaking(false);
+        window.speechSynthesis.speak(utterance);
+      };
+
+      const sizeClass = size === 'small' ? 'speak-btn speak-btn-sm' : 'speak-btn';
+
+      return (
+        <button className={sizeClass} onClick={handleSpeak} title="Dengarkan pengucapan (発音を聞く)">
+          <i className={`fas ${speaking ? 'fa-volume-up speak-animate' : 'fa-volume-up'}`}></i>
+        </button>
+      );
+    }
+
+    // ============================================
+    // ヘッダーコンポーネント
+    // ============================================
+    function Header({ onBack, showBack }) {
+      return (
+        <header className="app-header">
+          <div className="header-inner">
+            {showBack ? (
+              <button className="back-btn" onClick={onBack}>
+                <i className="fas fa-arrow-left"></i>
+                <span>Kembali</span>
+              </button>
+            ) : <div style={{width: '100px'}} />}
+            <div className="header-title">
+              <div className="header-logo">
+                <i className="fas fa-school"></i>
+              </div>
+              <div>
+                <h1>JLPT N5 Latihan</h1>
+                <p>日本語能力試験 N5 練習</p>
+              </div>
+            </div>
+            <div style={{width: '100px'}} />
+          </div>
+        </header>
+      );
+    }
+
+    // ============================================
+    // メニュー画面
+    // ============================================
+    function MenuScreen({ onSelectCategory }) {
+      return (
+        <div className="menu-screen">
+          <div className="welcome-section">
+            <div className="welcome-icon">
+              <i className="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Selamat Datang! ようこそ！</h2>
+            <p>Pilih jenis soal untuk memulai latihan JLPT N5.</p>
+            <p className="sub-text">練習する問題を選んでください。</p>
+          </div>
+
+          <a href="hirakata.html" className="hirakata-banner">
+            <div className="hirakata-banner-icon">
+              <span>あ</span>
+              <span>ア</span>
+            </div>
+            <div className="hirakata-banner-content">
+              <h3>ひらがな・カタカナ 学習コーナー</h3>
+              <p>Belajar Hiragana & Katakana</p>
+            </div>
+            <div className="card-arrow">
+              <i className="fas fa-chevron-right"></i>
+            </div>
+          </a>
+
+          {CATEGORY_GROUPS.map(group => (
+            <div key={group.groupId} className="category-group">
+              <div className="group-header">
+                <h3 className="group-title-jp">{group.groupTitle}</h3>
+                <p className="group-title-id">{group.groupTitleId}</p>
+              </div>
+              <div className="category-grid">
+                {group.categories.map(cat => (
+                    <button
+                      key={cat.id}
+                      className="category-card"
+                      onClick={() => onSelectCategory(cat)}
+                      style={{ '--card-color': cat.color }}
+                    >
+                      <div className="card-icon" style={{ background: cat.color }}>
+                        <i className={`fas ${cat.icon}`}></i>
+                      </div>
+                      <div className="card-content">
+                        <h3>{cat.titleJp}</h3>
+                        <p className="card-title-id">{cat.title}</p>
+                        <p className="card-desc">{cat.description}</p>
+                      </div>
+                      <div className="card-arrow">
+                        <i className="fas fa-chevron-right"></i>
+                      </div>
+                    </button>
+                ))}
+              </div>
+            </div>
+          ))}
+
+
+        </div>
+      );
+    }
+
+    // ============================================
+    // 正解エフェクト（5種類、毎回発動）+ 不正解エフェクト
+    // ============================================
+    const CORRECT_EFFECTS = ['sparkle', 'confetti', 'ripple', 'floatUp', 'glow'];
+    const WRONG_EFFECTS = ['shake', 'crack', 'fadeRed'];
+
+    function AnswerEffect({ type }) {
+      if (type === 'sparkle') {
+        const stars = Array.from({ length: 8 }, (_, i) => {
+          const left = 10 + Math.random() * 80;
+          const delay = Math.random() * 0.3;
+          const size = 10 + Math.random() * 14;
+          return (
+            <span key={i} className="effect-sparkle-star" style={{
+              left: `${left}%`,
+              animationDelay: `${delay}s`,
+              fontSize: `${size}px`
+            }}>✦</span>
+          );
+        });
+        return <div className="effect-overlay">{stars}</div>;
+      }
+      if (type === 'confetti') {
+        const pieces = Array.from({ length: 12 }, (_, i) => {
+          const left = 5 + Math.random() * 90;
+          const delay = Math.random() * 0.4;
+          const colors = ['#f1c40f','#e74c3c','#3498db','#2ecc71','#9b59b6','#e67e22'];
+          const color = colors[i % colors.length];
+          return (
+            <span key={i} className="effect-confetti-piece" style={{
+              left: `${left}%`,
+              animationDelay: `${delay}s`,
+              background: color
+            }} />
+          );
+        });
+        return <div className="effect-overlay">{pieces}</div>;
+      }
+      if (type === 'ripple') {
+        return (
+          <div className="effect-overlay effect-ripple">
+            <span className="effect-ripple-ring" style={{ animationDelay: '0s' }} />
+            <span className="effect-ripple-ring" style={{ animationDelay: '0.15s' }} />
+          </div>
+        );
+      }
+      if (type === 'floatUp') {
+        const emojis = ['🎉','⭐','✨','💯','👏'];
+        const items = Array.from({ length: 6 }, (_, i) => {
+          const left = 10 + Math.random() * 80;
+          const delay = Math.random() * 0.3;
+          const emoji = emojis[i % emojis.length];
+          return (
+            <span key={i} className="effect-float-item" style={{
+              left: `${left}%`,
+              animationDelay: `${delay}s`
+            }}>{emoji}</span>
+          );
+        });
+        return <div className="effect-overlay">{items}</div>;
+      }
+      if (type === 'glow') {
+        return <div className="effect-overlay effect-glow-flash" />;
+      }
+      // 不正解エフェクト
+      if (type === 'shake') {
+        return <div className="effect-overlay effect-shake-overlay" />;
+      }
+      if (type === 'crack') {
+        return (
+          <div className="effect-overlay effect-crack-overlay">
+            <span className="effect-crack-x">✕</span>
+          </div>
+        );
+      }
+      if (type === 'fadeRed') {
+        return <div className="effect-overlay effect-fade-red" />;
+      }
+      return null;
+    }
+
+    // ============================================
+    // クイズ画面
+    // ============================================
+    function QuizScreen({ category, onFinish }) {
+      const quizCount = getQuizCount(category.id);
+      const [questions] = useState(() => pickRandomQuestions(category.data, quizCount));
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [selectedOption, setSelectedOption] = useState(null);
+      const [answered, setAnswered] = useState(false);
+      const [results, setResults] = useState([]);
+      const [activeEffect, setActiveEffect] = useState(null);
+
+      const currentQ = questions[currentIndex];
+      const isCorrect = selectedOption === currentQ.answer;
+      const progress = ((currentIndex) / questions.length) * 100;
+
+      const handleSelect = (optIndex) => {
+        if (answered) return;
+        setSelectedOption(optIndex);
+        setAnswered(true);
+        const wasCorrect = optIndex === currentQ.answer;
+        setResults(prev => [...prev, {
+          question: currentQ,
+          selected: optIndex,
+          correct: wasCorrect
+        }]);
+        // 正解時：毎回ランダムで正解エフェクト
+        // 不正解時：毎回ランダムで不正解エフェクト
+        if (wasCorrect) {
+          const effectType = CORRECT_EFFECTS[Math.floor(Math.random() * CORRECT_EFFECTS.length)];
+          setActiveEffect(effectType);
+          setTimeout(() => setActiveEffect(null), 1400);
+        } else {
+          const effectType = WRONG_EFFECTS[Math.floor(Math.random() * WRONG_EFFECTS.length)];
+          setActiveEffect(effectType);
+          setTimeout(() => setActiveEffect(null), 800);
+        }
+      };
+
+      const handleNext = () => {
+        if (currentIndex + 1 >= questions.length) {
+          onFinish(results);
+        } else {
+          setCurrentIndex(prev => prev + 1);
+          setSelectedOption(null);
+          setAnswered(false);
+        }
+      };
+
+      const getOptionClass = (optIndex) => {
+        if (!answered) return 'option-btn';
+        if (optIndex === currentQ.answer) return 'option-btn option-correct';
+        if (optIndex === selectedOption && optIndex !== currentQ.answer) return 'option-btn option-wrong';
+        return 'option-btn option-disabled';
+      };
+
+      const quizShakeClass = activeEffect === 'shake' ? ' quiz-shaking' : '';
+
+      return (
+        <div className={`quiz-screen${quizShakeClass}`} style={{ position: 'relative' }}>
+          {activeEffect && activeEffect !== 'shake' && <AnswerEffect type={activeEffect} />}
+          <div className="quiz-header">
+            <div className="quiz-category-badge" style={{ background: category.color }}>
+              <i className={`fas ${category.icon}`}></i>
+              <span>{category.titleJp}</span>
+            </div>
+            <div className="quiz-progress-info">
+              <span>Soal {currentIndex + 1} / {questions.length}</span>
+            </div>
+          </div>
+
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progress}%`, background: category.color }}></div>
+          </div>
+
+          <div className="question-card">
+            <div className="question-number">
+              <span className="q-num">Q{currentIndex + 1}</span>
+            </div>
+            <p className="question-text">{renderQuestion(currentQ.question)}</p>
+
+            {/* 翻訳は回答後のみ表示 */}
+            {answered && (
+              <div className="question-translation translation-reveal">
+                <i className="fas fa-language"></i> {currentQ.translation}
+              </div>
+            )}
+          </div>
+
+          <div className="options-grid">
+            {currentQ.options.map((opt, i) => (
+              <button
+                key={i}
+                className={getOptionClass(i)}
+                onClick={() => handleSelect(i)}
+                disabled={answered}
+              >
+                <span className="option-number">{i + 1}</span>
+                <span className="option-text">{opt}</span>
+                {answered && i === currentQ.answer && (
+                  <i className="fas fa-check-circle option-icon"></i>
+                )}
+                {answered && i === selectedOption && i !== currentQ.answer && (
+                  <i className="fas fa-times-circle option-icon"></i>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {answered && (
+            <div className={`feedback-box ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}`}>
+              <div className="feedback-header">
+                {isCorrect ? (
+                  <>
+                    <i className="fas fa-check-circle"></i>
+                    <span>Benar! 正解！ 🎉</span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-times-circle"></i>
+                    <span>Salah... 不正解 😥</span>
+                  </>
+                )}
+              </div>
+              {!isCorrect && (
+                <p className="feedback-answer">
+                  Jawaban yang benar: <strong>{currentQ.options[currentQ.answer]}</strong>
+                </p>
+              )}
+              <button className="next-btn" onClick={handleNext} style={{ background: category.color }}>
+                {currentIndex + 1 >= questions.length ? (
+                  <><i className="fas fa-trophy"></i> Lihat Hasil</>
+                ) : (
+                  <><i className="fas fa-arrow-right"></i> Soal Berikutnya</>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ============================================
+    // 結果画面
+    // ============================================
+    function ResultScreen({ category, results, onRetry, onMenu }) {
+      const correctCount = results.filter(r => r.correct).length;
+      const totalCount = results.length;
+      const percentage = Math.round((correctCount / totalCount) * 100);
+
+      // Web Speech APIの音声を事前ロード
+      useEffect(() => {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.getVoices();
+        }
+      }, []);
+
+      const getGrade = () => {
+        if (percentage === 100) return { emoji: '🏆', text: 'Sempurna!', textJp: '完璧！', class: 'grade-perfect' };
+        if (percentage >= 80) return { emoji: '🎉', text: 'Hebat!', textJp: 'すごい！', class: 'grade-great' };
+        if (percentage >= 60) return { emoji: '👍', text: 'Bagus!', textJp: 'いいね！', class: 'grade-good' };
+        if (percentage >= 40) return { emoji: '💪', text: 'Terus berusaha!', textJp: 'がんばって！', class: 'grade-ok' };
+        return { emoji: '📚', text: 'Ayo belajar lagi!', textJp: 'もっとがんばろう！', class: 'grade-low' };
+      };
+
+      const grade = getGrade();
+
+
+
+      return (
+        <div className="result-screen">
+          <div className={`result-hero ${grade.class}`}>
+            <div className="result-emoji">{grade.emoji}</div>
+            <h2>{grade.text}</h2>
+            <p className="result-jp">{grade.textJp}</p>
+            <div className="result-score">
+              <div className="score-circle">
+                <span className="score-number">{correctCount}</span>
+                <span className="score-divider">/</span>
+                <span className="score-total">{totalCount}</span>
+              </div>
+              <p className="score-percent">{percentage}% benar</p>
+            </div>
+          </div>
+
+          <div className="result-details">
+            <h3><i className="fas fa-list-check"></i> Detail Jawaban</h3>
+            {results.map((r, i) => (
+              <div key={i} className={`result-item ${r.correct ? 'item-correct' : 'item-wrong'}`}>
+                <div className="result-item-header">
+                  <span className="result-q-num">Q{i + 1}</span>
+                  <div className="result-item-actions">
+                    <SpeakButton text={getSpeechTextForResult(r.question.question, r.question.options[r.question.answer])} size="small" />
+                    {r.correct ? (
+                      <span className="result-badge badge-correct"><i className="fas fa-check"></i> Benar</span>
+                    ) : (
+                      <span className="result-badge badge-wrong"><i className="fas fa-times"></i> Salah</span>
+                    )}
+                  </div>
+                </div>
+                <p className="result-question">{renderQuestion(r.question.question)}</p>
+                <p className="result-translation">
+                  <i className="fas fa-language"></i> {r.question.translation}
+                </p>
+                <div className="result-answers">
+                  {!r.correct && (
+                    <p className="your-answer">
+                      <i className="fas fa-times"></i> Jawaban Anda: <strong>{r.question.options[r.selected]}</strong>
+                    </p>
+                  )}
+                  <p className="correct-answer">
+                    <i className="fas fa-check"></i> Jawaban benar: <strong>{r.question.options[r.question.answer]}</strong>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="result-actions">
+            <button className="retry-btn" onClick={onRetry} style={{ background: category.color }}>
+              <i className="fas fa-redo"></i> Coba Lagi ({category.title})
+            </button>
+            <button className="menu-btn" onClick={onMenu}>
+              <i className="fas fa-home"></i> Kembali ke Menu
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================
+    // メインApp
+    // ============================================
+    function App() {
+      const [screen, setScreen] = useState('menu');
+      const [selectedCategory, setSelectedCategory] = useState(null);
+      const [quizResults, setQuizResults] = useState(null);
+      const [quizKey, setQuizKey] = useState(0);
+
+      // 音声読み込みを初期化
+      useEffect(() => {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.getVoices();
+          window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+          };
+        }
+      }, []);
+
+      const handleSelectCategory = (cat) => {
+        setSelectedCategory(cat);
+        setScreen('quiz');
+        setQuizKey(prev => prev + 1);
+        window.scrollTo(0, 0);
+      };
+
+      const handleFinish = (results) => {
+        setQuizResults(results);
+        setScreen('result');
+        window.scrollTo(0, 0);
+      };
+
+      const handleRetry = () => {
+        setScreen('quiz');
+        setQuizKey(prev => prev + 1);
+        setQuizResults(null);
+        window.scrollTo(0, 0);
+      };
+
+      const handleMenu = () => {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        setScreen('menu');
+        setSelectedCategory(null);
+        setQuizResults(null);
+        window.scrollTo(0, 0);
+      };
+
+      return (
+        <div className="app">
+          <Header
+            showBack={screen !== 'menu'}
+            onBack={handleMenu}
+          />
+          <main className="main-content">
+            {screen === 'menu' && (
+              <MenuScreen onSelectCategory={handleSelectCategory} />
+            )}
+            {screen === 'quiz' && selectedCategory && (
+              <QuizScreen
+                key={quizKey}
+                category={selectedCategory}
+                onFinish={handleFinish}
+              />
+            )}
+            {screen === 'result' && selectedCategory && quizResults && (
+              <ResultScreen
+                category={selectedCategory}
+                results={quizResults}
+                onRetry={handleRetry}
+                onMenu={handleMenu}
+              />
+            )}
+          </main>
+          <footer className="app-footer">
+            <p>JLPT N5 Latihan &copy; 2026 | Untuk pelajar bahasa Jepang dari Indonesia 🇮🇩🇯🇵</p>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
