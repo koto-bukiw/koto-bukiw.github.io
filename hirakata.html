@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ひらがな・カタカナ学習</title>
+<style>
+  :root {
+    --primary-hira: #4A90D9;
+    --primary-hira-light: #e8f0fe;
+    --primary-kata: #D94A7A;
+    --primary-kata-light: #fde8ef;
+    --bg: #f5f5f5;
+    --card-bg: #ffffff;
+    --text: #333333;
+    --highlight-hira: #2563eb;
+    --highlight-kata: #db2777;
+    --shadow: 0 2px 8px rgba(0,0,0,0.10);
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== Header ===== */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .header-inner {
+    max-width: 800px; margin: 0 auto;
+    padding: 12px 16px 0; text-align: center;
+  }
+  .header-inner h1 { font-size: 1.15rem; margin-bottom: 10px; letter-spacing: .05em; }
+  .tab-bar { display: flex; }
+  .tab-btn {
+    flex: 1; padding: 10px 0; border: none; background: transparent;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all .25s; color: #999; font-family: inherit;
+  }
+  .tab-btn.active-hira { color: var(--primary-hira); border-bottom-color: var(--primary-hira); }
+  .tab-btn.active-kata { color: var(--primary-kata); border-bottom-color: var(--primary-kata); }
+
+  /* ===== Main ===== */
+  main { max-width: 800px; margin: 0 auto; padding: 16px 10px 100px; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ===== Grid ===== */
+  .section-label {
+    font-size: .82rem; font-weight: 700; color: #888;
+    margin: 18px 0 8px 4px; letter-spacing: .08em;
+  }
+  .gojuon-grid {
+    display: grid; grid-template-columns: repeat(5,1fr);
+    gap: 6px; margin-bottom: 12px;
+  }
+  .kana-cell {
+    aspect-ratio: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--card-bg); border-radius: var(--radius);
+    box-shadow: var(--shadow); cursor: pointer;
+    transition: transform .12s, box-shadow .12s;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+    border: 2px solid transparent;
+  }
+  .kana-cell:active { transform: scale(.93); }
+  .kana-cell.hira-cell:hover,.kana-cell.hira-cell:active {
+    border-color: var(--primary-hira); box-shadow: 0 4px 16px rgba(74,144,217,.25);
+  }
+  .kana-cell.kata-cell:hover,.kana-cell.kata-cell:active {
+    border-color: var(--primary-kata); box-shadow: 0 4px 16px rgba(217,74,122,.25);
+  }
+  .kana-cell .kana-char {
+    font-size: clamp(1.4rem,5vw,2.2rem); font-weight: 700; line-height: 1.2;
+  }
+  .hira-cell .kana-char { color: var(--primary-hira); }
+  .kata-cell .kana-char { color: var(--primary-kata); }
+  .kana-cell .romaji {
+    font-size: clamp(.55rem,1.8vw,.78rem); color: #aaa; margin-top: 2px;
+  }
+  .kana-cell.empty { visibility: hidden; }
+
+  /* ===== Modal ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.45); z-index: 200;
+    align-items: center; justify-content: center;
+    padding: 24px; animation: fadeIn .2s;
+  }
+  .modal-overlay.show { display: flex; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  @keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+  .modal-card {
+    background: #fff; border-radius: 20px;
+    padding: 28px 20px 24px; max-width: 360px; width: 100%;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,.2);
+    animation: slideUp .25s; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 10px; right: 14px;
+    background: none; border: none; font-size: 1.6rem;
+    cursor: pointer; color: #bbb; line-height: 1; font-family: inherit;
+  }
+
+  /* メインのかな表示エリア */
+  .modal-main {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-bottom: 4px;
+  }
+  .modal-kana {
+    font-size: 4.2rem; font-weight: 800; line-height: 1.1;
+  }
+  .modal-kana.hira { color: var(--primary-hira); }
+  .modal-kana.kata { color: var(--primary-kata); }
+
+  .speak-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: none; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: opacity .15s, transform .12s;
+    flex-shrink: 0;
+  }
+  .speak-btn:active { opacity: .65; transform: scale(.9); }
+  .speak-btn svg { width: 22px; height: 22px; fill: #fff; }
+  .speak-btn.hira { background: var(--primary-hira); }
+  .speak-btn.kata { background: var(--primary-kata); }
+
+  .modal-romaji {
+    font-size: 1.2rem; color: #999; margin: 2px 0 18px;
+  }
+
+  /* 例セクション */
+  .example-box {
+    background: #f8f8fa; border-radius: 14px;
+    padding: 10px 10px 6px; text-align: left;
+  }
+  .example-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 8px; border-radius: 10px;
+    margin-bottom: 4px;
+    transition: background .12s;
+  }
+  .example-item:last-child { margin-bottom: 0; }
+  .example-item:active { background: #eee; }
+
+  .speak-btn-sm {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: none; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: opacity .15s, transform .12s;
+  }
+  .speak-btn-sm:active { opacity: .65; transform: scale(.9); }
+  .speak-btn-sm svg { width: 17px; height: 17px; fill: #fff; }
+  .speak-btn-sm.hira { background: var(--primary-hira); }
+  .speak-btn-sm.kata { background: var(--primary-kata); }
+
+  .example-text { flex: 1; min-width: 0; }
+  .example-word {
+    font-size: 1.35rem; font-weight: 700; line-height: 1.35;
+  }
+  .example-meaning {
+    font-size: .8rem; color: #888; margin-top: 1px;
+  }
+  mark.hira {
+    background: none; color: var(--highlight-hira); font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: rgba(37,99,235,.3);
+    text-underline-offset: 3px;
+  }
+  mark.kata {
+    background: none; color: var(--highlight-kata); font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: rgba(219,39,119,.3);
+    text-underline-offset: 3px;
+  }
+
+  @media(min-width:600px){
+    .gojuon-grid{gap:8px}
+    main{padding:20px 20px 80px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Belajar Hiragana &amp; Katakana</h1>
+    <div class="tab-bar">
+      <button class="tab-btn active-hira" id="tabHira" onclick="switchPage('hiragana')">ひらがな</button>
+      <button class="tab-btn" id="tabKata" onclick="switchPage('katakana')">カタカナ</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="page active" id="pageHira"></div>
+  <div class="page" id="pageKata"></div>
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-main">
+      <div class="modal-kana" id="modalKana"></div>
+      <button class="speak-btn" id="modalSpeak" onclick="speakCurrent()">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8.3v7.4a4.47 4.47 0 0 0 2.5-3.7zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1A9 9 0 0 0 14 3.2z"/></svg>
+      </button>
+    </div>
+    <div class="modal-romaji" id="modalRomaji"></div>
+    <div class="example-box" id="modalExamples"></div>
+  </div>
+</div>
+
+<script>
+// ====================================================
+// Data
+// ====================================================
+
+// ローマ字: インドネシア人向け表記
+// shi→si, chi→ci, tsu→tsu, fu→hu, ji→ji, di→di, du→du, za→za, zu→zu
+const kanaData = {
+  seion: [
+    ["あ","ア","a"],["い","イ","i"],["う","ウ","u"],["え","エ","e"],["お","オ","o"],
+    ["か","カ","ka"],["き","キ","ki"],["く","ク","ku"],["け","ケ","ke"],["こ","コ","ko"],
+    ["さ","サ","sa"],["し","シ","si"],["す","ス","su"],["せ","セ","se"],["そ","ソ","so"],
+    ["た","タ","ta"],["ち","チ","ci"],["つ","ツ","tsu"],["て","テ","te"],["と","ト","to"],
+    ["な","ナ","na"],["に","ニ","ni"],["ぬ","ヌ","nu"],["ね","ネ","ne"],["の","ノ","no"],
+    ["は","ハ","ha"],["ひ","ヒ","hi"],["ふ","フ","hu"],["へ","ヘ","he"],["ほ","ホ","ho"],
+    ["ま","マ","ma"],["み","ミ","mi"],["む","ム","mu"],["め","メ","me"],["も","モ","mo"],
+    ["や","ヤ","ya"],null,["ゆ","ユ","yu"],null,["よ","ヨ","yo"],
+    ["ら","ラ","ra"],["り","リ","ri"],["る","ル","ru"],["れ","レ","re"],["ろ","ロ","ro"],
+    ["わ","ワ","wa"],null,null,null,["を","ヲ","wo"],
+    ["ん","ン","n"],null,null,null,null,
+  ],
+  dakuon: [
+    ["が","ガ","ga"],["ぎ","ギ","gi"],["ぐ","グ","gu"],["げ","ゲ","ge"],["ご","ゴ","go"],
+    ["ざ","ザ","za"],["じ","ジ","ji"],["ず","ズ","zu"],["ぜ","ゼ","ze"],["ぞ","ゾ","zo"],
+    ["だ","ダ","da"],["ぢ","ヂ","di"],["づ","ヅ","du"],["で","デ","de"],["ど","ド","do"],
+    ["ば","バ","ba"],["び","ビ","bi"],["ぶ","ブ","bu"],["べ","ベ","be"],["ぼ","ボ","bo"],
+    ["ぱ","パ","pa"],["ぴ","ピ","pi"],["ぷ","プ","pu"],["ぺ","ペ","pe"],["ぽ","ポ","po"],
+  ],
+};
+
+// ひらがな例（インドネシア語訳）
+const examplesHira = {
+  "あ":"あめ,hujan;あさ,pagi",
+  "い":"いぬ,anjing;いえ,rumah",
+  "う":"うみ,laut;うた,lagu",
+  "え":"えき,stasiun;えんぴつ,pensil",
+  "お":"おちゃ,teh;おと,suara",
+  "か":"かさ,payung;かわ,sungai",
+  "き":"きもの,kimono;きって,perangko",
+  "く":"くも,awan;くるま,mobil",
+  "け":"けむり,asap;けしゴム,penghapus",
+  "こ":"こども,anak;こえ,suara",
+  "さ":"さくら,bunga sakura;さかな,ikan",
+  "し":"しま,pulau;しお,garam",
+  "す":"すし,sushi;すな,pasir",
+  "せ":"せかい,dunia;せんせい,guru",
+  "そ":"そら,langit;そば,mi soba",
+  "た":"たまご,telur;たけ,bambu",
+  "ち":"ちず,peta;ちから,kekuatan",
+  "つ":"つき,bulan;つくえ,meja",
+  "て":"てがみ,surat;てんき,cuaca",
+  "と":"とり,burung;ともだち,teman",
+  "な":"なつ,musim panas;なまえ,nama",
+  "に":"にわ,taman;にほん,Jepang",
+  "ぬ":"ぬの,kain;いぬ,anjing",
+  "ね":"ねこ,kucing;ねつ,demam",
+  "の":"のり,rumput laut;のはら,padang rumput",
+  "は":"はな,bunga;はし,jembatan",
+  "ひ":"ひかり,cahaya;ひと,orang",
+  "ふ":"ふゆ,musim dingin;ふね,kapal",
+  "へ":"へや,kamar;へいわ,perdamaian",
+  "ほ":"ほし,bintang;ほん,buku",
+  "ま":"まち,kota;まど,jendela",
+  "み":"みず,air;みち,jalan",
+  "む":"むし,serangga;むら,desa",
+  "め":"め,mata;めがね,kacamata",
+  "も":"もり,hutan;もも,persik",
+  "や":"やま,gunung;やさい,sayuran",
+  "ゆ":"ゆき,salju;ゆめ,mimpi",
+  "よ":"よる,malam;よこ,samping",
+  "ら":"らいねん,tahun depan;らくだ,unta",
+  "り":"りんご,apel;りゆう,alasan",
+  "る":"るす,tidak ada di rumah;るすばん,menjaga rumah",
+  "れ":"れきし,sejarah;れいぞうこ,kulkas",
+  "ろ":"ろうそく,lilin;ろく,enam",
+  "わ":"わたし,saya;わに,buaya",
+  "を":"おかしを たべる,makan kue;ほんを よむ,membaca buku",
+  "ん":"みかん,jeruk mandarin;にほん,Jepang",
+  "が":"がっこう,sekolah;がいこく,luar negeri",
+  "ぎ":"ぎんこう,bank;おにぎり,onigiri",
+  "ぐ":"ぐんて,sarung tangan kerja;ぐうぜん,kebetulan",
+  "げ":"げんき,sehat / semangat;げつようび,hari Senin",
+  "ご":"ごはん,nasi;ごご,sore",
+  "ざ":"ざっし,majalah;ざる,saringan",
+  "じ":"じかん,waktu;じてんしゃ,sepeda",
+  "ず":"ちず,peta;ずつう,sakit kepala",
+  "ぜ":"ぜんぶ,semua;ぜいきん,pajak",
+  "ぞ":"ぞう,gajah;かぞく,keluarga",
+  "だ":"だいがく,universitas;だいどころ,dapur",
+  "ぢ":"はなぢ,mimisan;ちぢむ,menyusut",
+  "づ":"つづく,berlanjut;みかづき,bulan sabit",
+  "で":"でんわ,telepon;でぐち,pintu keluar",
+  "ど":"どうぶつ,hewan;どようび,hari Sabtu",
+  "ば":"ばしょ,tempat;ばら,mawar",
+  "び":"びじゅつ,seni rupa;びょういん,rumah sakit",
+  "ぶ":"ぶどう,anggur;ぶんか,budaya",
+  "べ":"べんきょう,belajar;べんとう,bekal makan",
+  "ぼ":"ぼうし,topi;ぼく,saya (laki-laki)",
+  "ぱ":"ぱん,roti;てんぱい,langit terang",
+  "ぴ":"ぴあの,piano;えんぴつ,pensil",
+  "ぷ":"ぷーる,kolam renang;ぷれぜんと,hadiah",
+  "ぺ":"ぺっと,hewan peliharaan;ぺん,pena",
+  "ぽ":"ぽけっと,saku;さんぽ,jalan-jalan",
+};
+
+// カタカナ例（インドネシア語訳）
+const examplesKata = {
+  "ア":"アイス,es krim;アメリカ,Amerika",
+  "イ":"インド,India;イタリア,Italia",
+  "ウ":"ウサギ,kelinci;ウクレレ,ukulele",
+  "エ":"エレベーター,lift;エプロン,celemek",
+  "オ":"オレンジ,jeruk;オリンピック,Olimpiade",
+  "カ":"カメラ,kamera;カレー,kari",
+  "キ":"キッチン,dapur;キャンプ,kemah",
+  "ク":"クラス,kelas;クリスマス,Natal",
+  "ケ":"ケーキ,kue;ケチャップ,saus tomat",
+  "コ":"コーヒー,kopi;コンピューター,komputer",
+  "サ":"サッカー,sepak bola;サラダ,salad",
+  "シ":"シャツ,kemeja;システム,sistem",
+  "ス":"スポーツ,olahraga;スーパー,supermarket",
+  "セ":"セーター,sweater;センター,pusat",
+  "ソ":"ソファ,sofa;ソフト,lunak",
+  "タ":"タクシー,taksi;タオル,handuk",
+  "チ":"チーズ,keju;チョコレート,cokelat",
+  "ツ":"ツアー,tur;ツナ,tuna",
+  "テ":"テレビ,televisi;テスト,ujian",
+  "ト":"トマト,tomat;トイレ,toilet",
+  "ナ":"ナイフ,pisau;ナプキン,serbet",
+  "ニ":"ニュース,berita;ニット,rajutan",
+  "ヌ":"ヌードル,mi;カヌー,kano",
+  "ネ":"ネクタイ,dasi;ネット,internet",
+  "ノ":"ノート,buku catatan;ノック,ketukan",
+  "ハ":"ハンバーガー,hamburger;ハイキング,mendaki",
+  "ヒ":"ヒーター,pemanas;ヒーロー,pahlawan",
+  "フ":"フルーツ,buah-buahan;フランス,Prancis",
+  "ヘ":"ヘリコプター,helikopter;ヘルメット,helm",
+  "ホ":"ホテル,hotel;ホットケーキ,pancake",
+  "マ":"マスク,masker;マラソン,maraton",
+  "ミ":"ミルク,susu;ミュージック,musik",
+  "ム":"ムービー,film;ハム,ham",
+  "メ":"メニュー,menu;メール,email",
+  "モ":"モノレール,monorel;レモン,lemon",
+  "ヤ":"ヤクルト,Yakult;タイヤ,ban",
+  "ユ":"ユニフォーム,seragam;ユーモア,humor",
+  "ヨ":"ヨーグルト,yogurt;ヨーロッパ,Eropa",
+  "ラ":"ラーメン,ramen;ライオン,singa",
+  "リ":"リモコン,remote;リュック,ransel",
+  "ル":"ルール,aturan;ルーム,kamar",
+  "レ":"レストラン,restoran;レモン,lemon",
+  "ロ":"ロボット,robot;ロケット,roket",
+  "ワ":"ワイン,anggur (minuman);ワッフル,wafel",
+  "ヲ":"ミズヲノム,minum air",
+  "ン":"パン,roti;ラーメン,ramen",
+  "ガ":"ガラス,kaca;ガソリン,bensin",
+  "ギ":"ギター,gitar;ギフト,hadiah",
+  "グ":"グラス,gelas;グループ,kelompok",
+  "ゲ":"ゲーム,permainan;ゲート,gerbang",
+  "ゴ":"ゴルフ,golf;ゴール,gol",
+  "ザ":"ザック,ransel;デザート,hidangan penutup",
+  "ジ":"ジュース,jus;ジーンズ,celana jins",
+  "ズ":"ズボン,celana;チーズ,keju",
+  "ゼ":"ゼリー,jeli;ゼロ,nol",
+  "ゾ":"ゾーン,zona;アマゾン,Amazon",
+  "ダ":"ダンス,tarian;ダイヤ,berlian",
+  "ヂ":"マヂック,sulap",
+  "ヅ":"ミカヅキ,bulan sabit",
+  "デ":"デザイン,desain;デパート,toserba",
+  "ド":"ドア,pintu;ドラマ,drama",
+  "バ":"バス,bus;バナナ,pisang",
+  "ビ":"ビール,bir;ビデオ,video",
+  "ブ":"ブログ,blog;ブーツ,sepatu bot",
+  "ベ":"ベッド,tempat tidur;ベルト,sabuk",
+  "ボ":"ボール,bola;ボタン,tombol",
+  "パ":"パーティー,pesta;パスポート,paspor",
+  "ピ":"ピアノ,piano;ピザ,pizza",
+  "プ":"プール,kolam renang;プレゼント,hadiah",
+  "ペ":"ペン,pena;ペット,hewan peliharaan",
+  "ポ":"ポスト,pos;ポケット,saku",
+};
+
+// ====================================================
+// Build pages
+// ====================================================
+function buildPage(type) {
+  const isHira = type === 'hiragana';
+  const container = isHira ? document.getElementById('pageHira') : document.getElementById('pageKata');
+  const cellClass = isHira ? 'hira-cell' : 'kata-cell';
+  let html = '';
+
+  html += `<div class="section-label">清音 — Seion</div><div class="gojuon-grid">`;
+  kanaData.seion.forEach(item => {
+    if (!item) { html += `<div class="kana-cell empty"></div>`; return; }
+    const ch = isHira ? item[0] : item[1], rm = item[2];
+    html += `<div class="kana-cell ${cellClass}" onclick="openModal('${ch}','${rm}','${type}')">
+      <span class="kana-char">${ch}</span><span class="romaji">${rm}</span></div>`;
+  });
+  html += `</div>`;
+
+  html += `<div class="section-label">濁音・半濁音 — Dakuon / Handakuon</div><div class="gojuon-grid">`;
+  kanaData.dakuon.forEach(item => {
+    const ch = isHira ? item[0] : item[1], rm = item[2];
+    html += `<div class="kana-cell ${cellClass}" onclick="openModal('${ch}','${rm}','${type}')">
+      <span class="kana-char">${ch}</span><span class="romaji">${rm}</span></div>`;
+  });
+  html += `</div>`;
+
+  container.innerHTML = html;
+}
+buildPage('hiragana');
+buildPage('katakana');
+
+// ====================================================
+// Tab switch
+// ====================================================
+function switchPage(type) {
+  const h = type === 'hiragana';
+  document.getElementById('pageHira').classList.toggle('active', h);
+  document.getElementById('pageKata').classList.toggle('active', !h);
+  document.getElementById('tabHira').className = 'tab-btn' + (h ? ' active-hira' : '');
+  document.getElementById('tabKata').className = 'tab-btn' + (!h ? ' active-kata' : '');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ====================================================
+// Modal
+// ====================================================
+let currentKana = '', currentType = '';
+const svgSpeaker = `<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8.3v7.4a4.47 4.47 0 0 0 2.5-3.7zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1A9 9 0 0 0 14 3.2z"/></svg>`;
+
+function openModal(char, romaji, type) {
+  currentKana = char;
+  currentType = type;
+  const cls = type === 'hiragana' ? 'hira' : 'kata';
+
+  document.getElementById('modalKana').textContent = char;
+  document.getElementById('modalKana').className = 'modal-kana ' + cls;
+  document.getElementById('modalRomaji').textContent = romaji;
+  document.getElementById('modalSpeak').className = 'speak-btn ' + cls;
+
+  // Examples
+  const exMap = type === 'hiragana' ? examplesHira : examplesKata;
+  const raw = exMap[char] || '';
+  const exDiv = document.getElementById('modalExamples');
+  exDiv.innerHTML = '';
+
+  if (raw) {
+    raw.split(';').forEach(entry => {
+      const [word, meaning] = entry.split(',');
+      if (!word) return;
+      const highlighted = highlightChar(word.trim(), char, cls);
+      const item = document.createElement('div');
+      item.className = 'example-item';
+      item.innerHTML = `
+        <button class="speak-btn-sm ${cls}" onclick="event.stopPropagation();speak('${word.trim()}')">${svgSpeaker}</button>
+        <div class="example-text">
+          <div class="example-word">${highlighted}</div>
+          <div class="example-meaning">${meaning ? meaning.trim() : ''}</div>
+        </div>`;
+      exDiv.appendChild(item);
+    });
+  }
+
+  document.getElementById('modal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  speak(char);
+}
+
+function highlightChar(word, char, cls) {
+  let r = '';
+  for (const c of word) r += c === char ? `<mark class="${cls}">${c}</mark>` : c;
+  return r;
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow = '';
+  window.speechSynthesis.cancel();
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+// ====================================================
+// Web Speech API
+// ====================================================
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP';
+  u.rate = 0.85;
+  u.pitch = 0.9;
+  const v = speechSynthesis.getVoices().find(v => v.lang.startsWith('ja'));
+  if (v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+function speakCurrent() { speak(currentKana); }
+
+if ('speechSynthesis' in window) speechSynthesis.getVoices();
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
